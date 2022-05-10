@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
-export const AForm = ({ children, action }) => {
+export const AForm = ({ children, onSubmit }) => {
 
     return (
         <Fragment>
             <form
-                action={action}
+                onSubmit={onSubmit}
                 method="POST"
             >
                 {children}

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { IconContext } from 'react-icons';
 import { IoSearchOutline } from 'react-icons/io5';
 
-export const AInput = ({ id, type, ref, label, place }) => {
+export const AInput = ({ id, type, valref, label, place }) => {
     return (
         <Fragment>
             <div className="md:flex items-center mt-8">
@@ -13,7 +13,7 @@ export const AInput = ({ id, type, ref, label, place }) => {
                 <input
                     type={type}
                     id={id}
-                    ref={ref}
+                    ref={valref}
                     placeholder={place}
                     className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />

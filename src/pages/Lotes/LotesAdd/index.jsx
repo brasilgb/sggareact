@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { ABoxAll, ABoxBody, ABoxHeader, ABoxHeaderTitle } from '../../../components/Boxes';
 import { ABreadcumb } from '../../../components/Breadcumbs';
 import { AButtomBack } from '../../../components/Buttons';
@@ -10,9 +10,42 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 
 import { ABoxFormBody } from '../../../components/Forms/BoxForm';
 import { AForm } from '../../../components/Forms';
+import api from '../../../services/api';
+import { AuthContext } from '../../../contexts/auth';
+import moment from 'moment';
 
 const LotesAdd = ({ loading }) => {
+
+    const { ciclos } = useContext(AuthContext);
+
     const [value, onChange] = useState(new Date());
+    const dateRef = useRef();
+    const loteRef = useRef();
+    const femeaRef = useRef();
+    const machoRef = useRef();
+
+    const cl = ciclos.filter((ci) => ci.ativo == 1);
+    // console.log(cl[0].cicloId);
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        // alert();
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
+        api.post('lotes', {
+            "cicloId": cl[0].cicloId,
+            "lote": loteRef.current.value,
+            "data_entrada": moment(value).format('YYYY-MM-DD'),
+            "femea": femeaRef.current.value,
+            "macho": machoRef.current.value
+        }, { headers: { "Authorization": `Bearer ${token}` } })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     return (
         <Fragment>
             <ABoxAll>
@@ -39,7 +72,7 @@ const LotesAdd = ({ loading }) => {
                 </ABoxHeader>
 
                 <ABoxBody>
-                    <AForm action="#">
+                    <AForm onSubmit={handleSubmit} >
 
                         <ABoxFormBody>
 
@@ -64,7 +97,7 @@ const LotesAdd = ({ loading }) => {
                             <AInput
                                 id="lote"
                                 type="text"
-                                // ref=""
+                                valref={loteRef}
                                 place=""
                                 label="Descrição do lote"
                             />
@@ -72,7 +105,7 @@ const LotesAdd = ({ loading }) => {
                             <AInput
                                 id="lote"
                                 type="text"
-                                // ref=""
+                                valref={femeaRef}
                                 place=""
                                 label="Aves fêmeas"
                             />
@@ -80,7 +113,7 @@ const LotesAdd = ({ loading }) => {
                             <AInput
                                 id="lote"
                                 type="text"
-                                // ref=""
+                                valref={machoRef}
                                 place=""
                                 label="Aves machos"
                             />

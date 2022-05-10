@@ -15,8 +15,8 @@ export const AuthProvider = ({ children }) => {
 
     const [redLogin, setRedLogin] = useState(false);
 
-    const [allLotes, setAllLotes] = useState([]);
-
+    const [lotes, setLotes] = useState([]);
+    const [ciclos, setCiclos] = useState([]);
 
     const [loadList, setLoadList] = useState(true);
     const [loadButton, setLoadButton] = useState(false)
@@ -127,17 +127,31 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        async function getAllLotes() {
+        async function getLotes() {
             await api.get('lotes')
                 .then((lotes) => {
-                    const lsort = lotes.data.allLotes.sort((a, b) => a.lote > b.lote ? 1 : -1);
-                    setAllLotes(lsort);
+                    const lsort = lotes.data.lotes.sort((a, b) => a.lote > b.lote ? 1 : -1);
+                    setLotes(lsort);
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
-        getAllLotes();
+        getLotes();
+    }, []);
+
+    useEffect(() => {
+        async function getCiclos() {
+            await api.get('ciclos')
+                .then((ciclos) => {
+                    const lsort = ciclos.data.ciclos.sort((a, b) => a.lote > b.lote ? 1 : -1);
+                    setCiclos(lsort);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        getCiclos();
     }, []);
 
     // useEffect(() => {
@@ -213,7 +227,8 @@ export const AuthProvider = ({ children }) => {
             redLogin,
             setRedLogin,
             dataSearch,
-            allLotes,
+            lotes,
+            ciclos,
             // numFilial,
             // valuesKpis,
             // totalValuesKpis,

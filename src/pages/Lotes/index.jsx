@@ -9,9 +9,10 @@ import { ATable, ATd, ATh, ATr } from '../../components/Tables';
 import { Pagination } from '../../components/Pagination';
 import { AuthContext } from '../../contexts/auth';
 import moment from 'moment';
+
 const Lotes = () => {
 
-    const { allLotes } = useContext(AuthContext);
+    const { lotes } = useContext(AuthContext);
 
     return (
         <Fragment>
@@ -51,7 +52,7 @@ const Lotes = () => {
                             <ATh>Cadastro</ATh>
                             <ATh></ATh>
                         </ATr>
-                        {allLotes.map((lote, index) => (
+                        {lotes.map((lote, index) => (
                             <ATr key={index} thead={false}>
                                 <ATd>{lote.lote}</ATd>
                                 <ATd>{lote.femea}</ATd>
