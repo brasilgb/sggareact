@@ -11,6 +11,6 @@ const AppRoutes = () => {
        <Route path="/lotesadd" element={ <LotesAdd /> } />
    </Routes>
   )
-}
+};
 
-export default AppRoutes
+export default AppRoutes;

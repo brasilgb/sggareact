@@ -4,7 +4,7 @@ export const ABoxAll = ({ children }) => {
 
     return (
         <Fragment>
-            <div className="container my-4 mx-auto bg-gray-100 border-2 border-white rounded shadow">
+            <div className="m-4 bg-gray-100 border-2 border-white rounded shadow">
                 {children}
             </div>
         </Fragment>

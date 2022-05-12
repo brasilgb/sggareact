@@ -1,6 +1,5 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
-import useOnClickOutside from '../ClickOutside';
 
 import navData from '../MenuDropDown/navData';
 
@@ -24,21 +23,19 @@ const MenuDropDown = () => {
         setMenuCategoryOpen(newState)
 
     };
-    const ref = useRef();
-    useOnClickOutside(ref, () => setMenuCategoryOpen([false, false]));
 
     const menu = navData.map((nav) => nav);
 
     // console.log(menu);
     return (
         <Fragment>
-            <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+            <ul className="mt-4 m-2 md:flex-row md:mt-0 md:text-sm md:font-medium">
                 {menu.map((men, m) => (
                     !men.submenu ? (
 
                         <li key={m}>
                             <Link to={men.url}
-                                className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">
+                                className="flex items-center rounded-md py-4 px-6 text-gray-50 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-100" aria-current="page">
                                 {men.menu}
                             </Link>
                         </li>
@@ -46,31 +43,28 @@ const MenuDropDown = () => {
                     ) : (
 
                         <li key={m}>
-                            <div className="relative inline-block">
+                            <div className="block">
                                 <Link to="#"
                                     onClick={(e) => toggleSubMenu(e, m)}
-                                    className="relative z-10 block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 "
+                                    className={`flex items-center ${menuCategoryOpen[m]?"focus:bg-gray-900 rounded-t-md":"rounded-md"}  py-4 px-6 text-gray-50 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-100`}
                                 >
                                     {men.menu}
                                 </Link>
                                 {menuCategoryOpen[m] &&
                                     <div
-                                        onMouseLeave={() => setMenuCategoryOpen([false, false])}
-                                        // ref={ref}
-                                        className={"absolute -left-10 z-20 w-48 py-2 mt-4 bg-white rounded-md shadow-xl"}
+                                        onClick={() => setMenuCategoryOpen([false, false])}
+                                        className={"w-full transition duration-300 transform bg-gray-50 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"}
                                     >
                                         {men.submenu.map((sub, s) => (
                                             <Link key={s}
                                                 to={sub.url}
-                                                className="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform hover:bg-gray-100"
+                                                className="flex items-center py-4 px-6 text-gray-500 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-400"
                                             >
                                                 {sub.menu}
                                             </Link>
                                         ))}
                                     </div>
                                 }
-
-
                             </div>
                         </li>
 

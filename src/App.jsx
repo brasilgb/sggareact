@@ -1,18 +1,20 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import NavBar from './components/NavBar';
+import Header from './components/Header';
 import AppRoutes from './routes';
 import Footer from './components/Footer'
 import { AuthProvider } from './contexts/auth';
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="flex flex-row min-h-screen bg-gray-100 text-gray-800">
-          <div className="flex flex-col flex-grow md:ml-0 transition-all duration-150 ease-in">
-            <NavBar />
-            <div className="flex flex-col flex-grow p-4">
+        <div className="flex h-screen bg-gray-100">
+          <Sidebar />
+          <div className="flex flex-col flex-grow">
+            <div className="flex flex-col flex-grow">
+              <Header />
               <AppRoutes />
             </div>
             <Footer />
