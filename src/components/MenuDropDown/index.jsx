@@ -64,7 +64,7 @@ const MenuDropDown = () => {
                                         {men.submenu.map((sub, s) => (
                                             <Link key={s}
                                                 to={sub.url}
-                                                className="flex items-center py-4 px-6 text-gray-500 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-400"
+                                                className="flex items-center py-4 px-6 text-gray-500 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-400 "
                                             >
                                                 {sub.menu}
                                             </Link>

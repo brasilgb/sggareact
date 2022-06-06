@@ -5,9 +5,9 @@ import { IoSearchOutline } from 'react-icons/io5';
 export const AInput = ({ id, type, valref, label, place }) => {
     return (
         <Fragment>
-            <div className="md:flex items-center mt-8">
+            <div className="md:flex items-center mt-4">
             <div className="w-full flex flex-col">
-                <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+                <label htmlFor={id} className="block text-sm font-semibold text-gray-600">
                     {label}
                 </label>
                 <input
@@ -15,7 +15,7 @@ export const AInput = ({ id, type, valref, label, place }) => {
                     id={id}
                     ref={valref}
                     placeholder={place}
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm font-semibold text-gray-600 border-gray-300 rounded-md"
                 />
                 </div>
             </div>

@@ -25,7 +25,7 @@ const LotesAdd = ({ loading }) => {
     const machoRef = useRef();
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);
-    // console.log(cl[0].cicloId);
+;
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -78,7 +78,7 @@ const LotesAdd = ({ loading }) => {
 
                             <div className="md:flex items-center mt-8">
                                 <div className="w-full flex flex-col">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label className="block text-sm font-semibold text-gray-600">
                                         Data de cadastro
                                     </label>
                                     <DateTimePicker
@@ -86,10 +86,11 @@ const LotesAdd = ({ loading }) => {
                                         value={value}
                                         disableClock={true}
                                         format="dd/MM/yyyy"
-                                        className="mt-1 w-full"
+                                        className="mt-1 w-full font-semibold text-gray-600"
                                         autoFocus={false}
                                         locale="pt-BR"
                                         clearIcon=""
+                                        calendarClassName="px-4"
                                     />
                                 </div>
                             </div>

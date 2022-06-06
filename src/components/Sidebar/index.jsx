@@ -1,4 +1,7 @@
 import React, { Fragment, useState } from 'react'
+import { IoEggSharp, IoFileTrayStacked, IoHome, IoTime } from 'react-icons/io5';
+import { FaCaretRight, FaTruck } from 'react-icons/fa';
+import { GiChicken, GiPowderBag } from 'react-icons/gi'
 import { useLocation } from "react-router-dom";
 import { ALink, ADropDown } from '../Links';
 const Sidebar = () => {
@@ -13,7 +16,10 @@ const Sidebar = () => {
 
     return (
         <Fragment>
-            <div className="fixed z-30 inset-y-0 left-0 w-72 transition duration-300 transform bg-blue-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
+            <div 
+            className="fixed z-30 inset-y-0 left-0 w-72 transition duration-300 transform  overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
+            style={{backgroundColor: "#0D2237"}}
+            >
                 <div className="flex items-center justify-center mt-8">
                     <div className="flex items-center">
                         <svg className="h-12 w-12" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,38 +34,81 @@ const Sidebar = () => {
                 <nav className="mt-10">
 
                     <ALink
-                        url="/"
+                        url=""
                         label="Home"
+                        active=""
+                        icon={<IoHome />}
+                    />
+                    <ALink
+                        url="ciclos"
+                        label="Ciclos"
+                        active="ciclos"
+                        icon={<IoTime />}
                     />
 
                     <ADropDown
-                        url="#"
                         label="Lotes/Aviários"
-                        active=""
+                        url="#"
+                        active={[{ "l": "lotes" }, { "l": "aviarios" }]}
                         position={1}
+                        icon={<IoFileTrayStacked />}
                     >
                         <ALink
-                            url="/lotes"
                             label="Lotes"
+                            url="/lotes"
+                            icon={<FaCaretRight />}
                         />
                         <ALink
-                            url="/aviarios"
                             label="Aviarios"
+                            url="/aviarios"
+                            icon={<FaCaretRight />}
                         />
                     </ADropDown>
+
+                    <ALink
+                        label="Coletas"
+                        url="coletas"
+                        active="coletas"
+                        icon={<IoEggSharp />}
+                    />
+                    <ALink
+                        label="Envio de Ovos"
+                        url="envios"
+                        active="envios"
+                        icon={<FaTruck />}
+                    />
+
                     <ADropDown
+                        label="Aves"
                         url="#"
-                        label="Lotes/Aviários"
-                        active=""
+                        active={[{ "l": "mortalidades" }, { "l": "pesagens" }]}
                         position={2}
+                        icon={<GiChicken />}
                     >
                         <ALink
-                            url="/lotes"
-                            label="Lotes"
+                            label="Mortalidades"
+                            url="/mortalidades"
                         />
                         <ALink
-                            url="/aviarios"
-                            label="Aviarios"
+                            label="Pesagens"
+                            url="/pesagens"
+                        />
+                    </ADropDown>
+
+                    <ADropDown
+                        label="Ração"
+                        url="#"
+                        active={[{ "l": "recebimentos" }, { "l": "consumos" }]}
+                        position={2}
+                        icon={<GiPowderBag />}
+                    >
+                        <ALink
+                            label="Recebimentos"
+                            url="/recebimentos"
+                        />
+                        <ALink
+                            label="Consumo"
+                            url="/consumos"
                         />
                     </ADropDown>
 
