@@ -127,20 +127,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        async function getLotes() {
-            await api.get('lotes')
-                .then((lotes) => {
-                    const lsort = lotes.data.lotes.sort((a, b) => a.lote > b.lote ? 1 : -1);
-                    setLotes(lsort);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-        getLotes();
-    }, []);
-
-    useEffect(() => {
         async function getCiclos() {
             await api.get('ciclos')
                 .then((ciclos) => {
@@ -152,6 +138,20 @@ export const AuthProvider = ({ children }) => {
                 })
         }
         getCiclos();
+    }, []);
+
+    useEffect(() => {
+        async function getLotes() {
+            await api.get('lotes')
+                .then((lotes) => {
+                    const lsort = lotes.data.lotes.sort((a, b) => a.lote > b.lote ? 1 : -1);
+                    setLotes(lsort);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        getLotes();
     }, []);
 
     // useEffect(() => {

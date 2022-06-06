@@ -9,23 +9,32 @@ import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import BoxError from '../../../components/Boxes/BoxError';
 import { ABoxFormBody } from '../../../components/Forms/BoxForm';
-import { AForm } from '../../../components/Forms';
 import api from '../../../services/api';
 import { AuthContext } from '../../../contexts/auth';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 
 import { useForm } from "react-hook-form";
 
-const LotesAdd = ({ loading }) => {
+const LotesEdit = () => {
 
-    const { ciclos } = useContext(AuthContext);
-
+    const { ciclos, lotes } = useContext(AuthContext);
+    const { id } = useParams();
+    const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(id)));
     const [value, onChange] = useState(new Date());
 
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const preloadedValues = {
+        lote: resLotes[0].lote,
+        femea: resLotes[0].femea,
+        macho: resLotes[0].macho
+    }
+
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
+        defaultValues: preloadedValues
+    });
 
     const onSubmit = (data) => {
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
@@ -143,7 +152,7 @@ const LotesAdd = ({ loading }) => {
                                 />
                                 {errors.macho && errors.macho?.type === 'required' && <BoxError text={errors.macho.message} />}
                             </AInput>
-                            
+
                         </ABoxFormBody>
                     </form>
                 </ABoxBody>
@@ -152,4 +161,4 @@ const LotesAdd = ({ loading }) => {
     );
 };
 
-export default LotesAdd;
+export default LotesEdit;

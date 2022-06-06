@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .formatInput {
+        @apply mt-1 block w-full shadow-sm font-medium text-gray-600 border-gray-300;
+    }
+
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Ciclo, Home, Lotes, LotesAdd } from './pages'
+import { Ciclo, Home, Lotes, LotesAdd, LotesEdit } from './pages'
 
 const AppRoutes = () => {
   return (
@@ -9,6 +9,7 @@ const AppRoutes = () => {
        <Route path="/ciclos" element={ <Ciclo /> } />
        <Route path="/lotes" element={ <Lotes /> } />
        <Route path="/lotesadd" element={ <LotesAdd /> } />
+       <Route path="/lotes/:id" element={ <LotesEdit /> } />
    </Routes>
   )
 };

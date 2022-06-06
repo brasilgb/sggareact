@@ -37,7 +37,7 @@ export const ATh = ({ children, colspan }) => {
         <Fragment>
             <th
             colSpan={colspan}
-                className='text-left bg-gray-200 px-2 py-2 text-sm'
+                className='text-left bg-gray-200 px-2 py-2 text-md'
             >
                     {children}
             </th>
@@ -50,7 +50,7 @@ export const ATd = ({ children, colspan }) => {
         <Fragment>
             <td
                 colSpan={colspan}
-                className='p-2 border-b border-gray-100'
+                className='p-2 border-b border-gray-100 text-md'
             >
                 {children}
             </td>

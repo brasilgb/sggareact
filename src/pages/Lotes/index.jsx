@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import { ABoxAll, ABoxBody, ABoxFooter, ABoxHeader, ABoxHeaderTitle } from '../../components/Boxes';
 import { ABreadcumb } from '../../components/Breadcumbs';
-import { AButtomAdd } from '../../components/Buttons';
+import { AButtomAdd, AButtomDelete, AButtomEdit } from '../../components/Buttons';
 import { AInputSearch } from '../../components/Forms/Inputs';
 import { IconContext } from 'react-icons';
 import { IoFileTrayStacked } from "react-icons/io5";
@@ -62,6 +62,10 @@ const Lotes = () => {
                                 <ATd>{lote.femea + lote.macho}</ATd>
                                 <ATd>{lote.aviariosNumber}</ATd>
                                 <ATd>{moment(lote.data_entrada).format('DD/MM/YYYY')}</ATd>
+                                <ATd>
+                                    <AButtomEdit url={`/lotes/${lote.loteId}`} />
+                                    <AButtomDelete url={`/lotes/${lote.loteId}`} />
+                                </ATd>
                             </ATr>
                         ))}
 

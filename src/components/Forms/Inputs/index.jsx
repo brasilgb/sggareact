@@ -1,22 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, forwardRef } from 'react';
 import { IconContext } from 'react-icons';
 import { IoSearchOutline } from 'react-icons/io5';
 
-export const AInput = ({ id, type, valref, label, place }) => {
+export const AInput = ({ id, label, children }) => {
     return (
         <Fragment>
             <div className="md:flex items-center mt-4">
-            <div className="w-full flex flex-col">
-                <label htmlFor={id} className="block text-sm font-semibold text-gray-600">
-                    {label}
-                </label>
-                <input
-                    type={type}
-                    id={id}
-                    ref={valref}
-                    placeholder={place}
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm font-semibold text-gray-600 border-gray-300 rounded-md"
-                />
+                <div className="w-full flex flex-col">
+                    <label htmlFor={id} className="block font-medium text-gray-600">
+                        {label}
+                    </label>
+                    {children}
                 </div>
             </div>
         </Fragment>
