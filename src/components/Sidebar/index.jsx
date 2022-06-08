@@ -17,7 +17,7 @@ const Sidebar = () => {
     return (
         <Fragment>
             <div 
-            className="fixed z-30 inset-y-0 left-0 w-72 transition duration-300 transform  overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
+            className="fixed h-screen w-0 lg:w-64  transition duration-300 overflow-y-auto"
             style={{backgroundColor: "#0D2237"}}
             >
                 <div className="flex items-center justify-center mt-8">

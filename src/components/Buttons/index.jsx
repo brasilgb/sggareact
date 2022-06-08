@@ -4,9 +4,12 @@ import { IconContext } from 'react-icons';
 
 import { IoAdd, IoArrowBack, IoSave } from "react-icons/io5";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { ImSpinner6 } from "react-icons/im";
+import { useState } from 'react';
 
 export const AButtomAdd = ({ url }) => {
     const navigate = useNavigate();
+
     return (
         <Fragment>
 
@@ -30,17 +33,32 @@ export const AButtomAdd = ({ url }) => {
 
 export const AButtomBack = ({ url }) => {
     const navigate = useNavigate();
+
+    const [reload, setReload] = useState(false);
+
+    const loadButtom = (() => {
+        setReload(true);
+        setTimeout(() => {
+            navigate(url);
+            window.location.reload(true);
+        }, 1000)
+    });
+
     return (
         <Fragment>
 
             <div className='flex-grow'>
                 <button
-                    onClick={() => navigate(url)}
+                    onClick={() => loadButtom()}
                     className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
                 >
                     <IconContext.Provider value={{ className: "text-lg" }}>
                         <div>
-                            <IoArrowBack />
+                            {reload ?
+                                <span><ImSpinner6 className="animate-spin" /></span>
+                                :
+                                <IoArrowBack />
+                            }
                         </div>
                     </IconContext.Provider>
                     <span className='ml-1 text-md'>Voltar</span>

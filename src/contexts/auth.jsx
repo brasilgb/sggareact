@@ -228,6 +228,7 @@ export const AuthProvider = ({ children }) => {
             setRedLogin,
             dataSearch,
             lotes,
+            setLotes,
             ciclos,
             // numFilial,
             // valuesKpis,

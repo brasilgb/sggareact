@@ -9,6 +9,8 @@ import { ATable, ATd, ATh, ATr } from '../../components/Tables';
 import { Pagination } from '../../components/Pagination';
 import { AuthContext } from '../../contexts/auth';
 import moment from 'moment';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Lotes = () => {
 
@@ -34,7 +36,7 @@ const Lotes = () => {
                 </ABoxHeader>
 
                 <ABoxHeader>
-                    <AButtomAdd url="/lotesadd" />
+                    <AButtomAdd url="/lotes/create" />
                     <AInputSearch place="Buscar por lote" />
                 </ABoxHeader>
 

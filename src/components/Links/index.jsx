@@ -14,9 +14,9 @@ const ALink = ({ url, label, active, icon, mleft }) => {
         <Fragment>
             <Link
                 to={url}
-                className={`${splitLocation[1] === active ? "bg-gray-50 bg-opacity-25 text-gray-50" : ""} flex items-center py-3 px-6 text-gray-500 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-400`}
+                className={`${splitLocation[1] === active ? "bg-gray-50 bg-opacity-25 text-gray-50" : ""} flex items-center py-3 px-4 lg:px-6 text-gray-500 hover:bg-gray-100 hover:bg-opacity-25 hover:text-gray-400`}
             >
-                <IconContext.Provider value={{className: "text-xl font-bold" }}>
+                <IconContext.Provider value={{ className: "text-xl font-bold" }}>
                     <div>
                         {icon}
                     </div>
@@ -59,7 +59,7 @@ const ADropDown = ({ children, url, label, position, active, icon }) => {
             <Link
                 onClick={(e) => toggleSubMenu(e, position)}
                 to={url}
-                className={`${splitLocation[1] === comparalink[0] ? "bg-gray-50 bg-opacity-25 text-gray-50" : ""} flex items-center py-4 px-6 text-gray-500 focus:bg-gray-50 focus:bg-opacity-25 focus:text-gray-50 hover:bg-gray-50 hover:bg-opacity-25 hover:text-gray-400`}
+                className={`${splitLocation[1] === comparalink[0] ? "bg-gray-50 bg-opacity-25 text-gray-50" : ""} flex items-center py-4 px-4 lg:px-6 text-gray-500 focus:bg-gray-50 focus:bg-opacity-25 focus:text-gray-50 hover:bg-gray-50 hover:bg-opacity-25 hover:text-gray-400`}
             >
                 <IconContext.Provider value={{ className: "text-xl font-bold" }}>
                     <div>

@@ -15,21 +15,22 @@ import { AuthContext } from '../../../contexts/auth';
 import moment from 'moment';
 
 import { useForm } from "react-hook-form";
+import BoxMessage from '../../../components/Boxes/BoxMessage';
 
-const LotesAdd = ({ loading }) => {
+const Create = ({ loading }) => {
 
-    const [ message, setMessage ] = useState('');
+    const [message, setMessage] = useState('');
 
     const { ciclos } = useContext(AuthContext);
 
     const [value, onChange] = useState(new Date());
-
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => {
+        setMessage('')
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
         api.post('lotes', {
             "cicloId": cl[0].cicloId,
@@ -41,7 +42,6 @@ const LotesAdd = ({ loading }) => {
             .then((response) => {
                 reset();
                 setMessage(response.data.message);
-                // console.log(response.data.message);
             })
             .catch(err => {
                 console.log(err);
@@ -75,7 +75,7 @@ const LotesAdd = ({ loading }) => {
 
                 <ABoxBody>
                     <form onSubmit={handleSubmit(onSubmit)} >
-{ message }
+                        {message && <BoxMessage message={message} openanimate={"animate__fadeInRight"} closeanimate={"animate__fadeOutRight"} />}
                         <ABoxFormBody>
 
                             <div className="md:flex items-center mt-8">
@@ -138,7 +138,7 @@ const LotesAdd = ({ loading }) => {
                                     {...register('macho', {
                                         required: {
                                             value: "Required",
-                                            message: 'Digite o número de fêmeas!'
+                                            message: 'Digite o número de machos!'
                                         }
                                     })}
                                     type="text"
@@ -156,4 +156,4 @@ const LotesAdd = ({ loading }) => {
     );
 };
 
-export default LotesAdd;
+export default Create;

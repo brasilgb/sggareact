@@ -24,8 +24,8 @@ export const ABoxHeader = ({ children }) => {
 
 }
 
-export const ABoxHeaderTitle = ({ children}) => {
-    
+export const ABoxHeaderTitle = ({ children }) => {
+
     return (
         <Fragment>
             <div className="flex items-center justify-center">
@@ -40,7 +40,7 @@ export const ABoxBody = ({ children }) => {
 
     return (
         <Fragment>
-            <div className="bg-gray-50 p-4">
+            <div className="bg-gray-50 p-4 overflow-x-auto">
                 {children}
             </div>
         </Fragment>
