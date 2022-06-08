@@ -21,7 +21,7 @@ const LotesEdit = () => {
     const { ciclos, lotes } = useContext(AuthContext);
     const { id } = useParams();
     const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(id)));
-    const [value, onChange] = useState(new Date());
+    const [value, onChange] = useState(new Date(resLotes[0].data_entrada));
 
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);

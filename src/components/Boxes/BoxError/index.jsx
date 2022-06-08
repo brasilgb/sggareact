@@ -6,7 +6,7 @@ import 'animate.css';
 const BoxError = ({ text }) => {
     return (
         <Fragment>
-            <div className="animate__animated animate__fadeInDown animate__delay-0s flex items-center justify-start w-full bg-yellow-200 rounded-b px-2 py-2">
+            <div className="animate__animated animate__fadeIn animate__delay-0s flex items-center justify-start w-full bg-yellow-200 rounded-b px-2 py-2">
                 <IconContext.Provider value={{ className: "text-md text-red-500" }}>
                     <div>
                         <IoWarning />

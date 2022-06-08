@@ -18,6 +18,8 @@ import { useForm } from "react-hook-form";
 
 const LotesAdd = ({ loading }) => {
 
+    const [ message, setMessage ] = useState('');
+
     const { ciclos } = useContext(AuthContext);
 
     const [value, onChange] = useState(new Date());
@@ -37,7 +39,9 @@ const LotesAdd = ({ loading }) => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                console.log(response);
+                reset();
+                setMessage(response.data.message);
+                // console.log(response.data.message);
             })
             .catch(err => {
                 console.log(err);
@@ -71,7 +75,7 @@ const LotesAdd = ({ loading }) => {
 
                 <ABoxBody>
                     <form onSubmit={handleSubmit(onSubmit)} >
-
+{ message }
                         <ABoxFormBody>
 
                             <div className="md:flex items-center mt-8">
@@ -143,7 +147,7 @@ const LotesAdd = ({ loading }) => {
                                 />
                                 {errors.macho && errors.macho?.type === 'required' && <BoxError text={errors.macho.message} />}
                             </AInput>
-                            
+
                         </ABoxFormBody>
                     </form>
                 </ABoxBody>
