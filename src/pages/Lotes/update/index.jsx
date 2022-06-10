@@ -2,9 +2,9 @@ import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import { ABoxAll, ABoxBody, ABoxHeader, ABoxHeaderTitle } from '../../../components/Boxes';
 import { ABreadcumb } from '../../../components/Breadcumbs';
 import { AButtomBack } from '../../../components/Buttons';
-import { AClassName, AInput, AInputSearch } from '../../../components/Forms/Inputs';
+import { AInput, AInputSearch } from '../../../components/Forms/Inputs';
 import { IconContext } from 'react-icons';
-import { IoFileTrayStacked, IoReloadSharp } from "react-icons/io5";
+import { IoFileTrayStacked } from "react-icons/io5";
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import BoxError from '../../../components/Boxes/BoxError';
@@ -25,7 +25,6 @@ const Update = () => {
     const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(idlote)));
     const [value, onChange] = useState(new Date(resLotes[0].data_entrada));
     const [message, setMessage] = useState('');
-
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
     const preloadedValues = {
@@ -38,26 +37,40 @@ const Update = () => {
         defaultValues: preloadedValues
     });
 
-
-        async function onSubmit(data) {
-
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
-
-            await api.patch('lotes', {
-                "loteId": parseInt(idlote),
-                "cicloId": cl[0].cicloId,
-                "lote": data.lote,
-                "data_entrada": moment(value).format('YYYY-MM-DD'),
-                "femea": data.femea,
-                "macho": data.macho
-            }, { headers: { "Authorization": `Bearer ${token}` } })
-                .then((response) => {
-                    setMessage(response.data.message);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
+    async function onSubmit(data) {
+        setMessage('')
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
+        await api.patch('lotes', {
+            "loteId": parseInt(idlote),
+            "cicloId": cl[0].cicloId,
+            "lote": data.lote,
+            "data_entrada": moment(value).format('YYYY-MM-DD'),
+            "femea": data.femea,
+            "macho": data.macho
+        }, { headers: { "Authorization": `Bearer ${token}` } })
+            .then((response) => {
+                setMessage(response.data.message);
+                const index = lotes.findIndex(object => {
+                    return object.loteId === parseInt(idlote);
+                  });
+                  if(index < 0){
+                    console.log('Não Têm...');
+                  }
+                  let ltemp = lotes;
+                  ltemp[index] = {
+                    "loteId": parseInt(idlote),
+                    "cicloId": cl[0].cicloId,
+                    "lote": data.lote,
+                    "data_entrada": moment(value).format('YYYY-MM-DD'),
+                    "femea": data.femea,
+                    "macho": data.macho
+                }
+                setLotes(ltemp);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     return (
         <Fragment>

@@ -16,12 +16,13 @@ import moment from 'moment';
 
 import { useForm } from "react-hook-form";
 import BoxMessage from '../../../components/Boxes/BoxMessage';
+import Lotes from '..';
 
 const Create = ({ loading }) => {
 
     const [message, setMessage] = useState('');
 
-    const { ciclos } = useContext(AuthContext);
+    const { ciclos, lotes, setLotes } = useContext(AuthContext);
 
     const [value, onChange] = useState(new Date());
 
@@ -42,6 +43,16 @@ const Create = ({ loading }) => {
             .then((response) => {
                 reset();
                 setMessage(response.data.message);
+                setLotes([...lotes, 
+                    {
+                        "loteId": response.data.lote.loteid,
+                        "cicloId": cl[0].cicloId,
+                        "lote": data.lote,
+                        "data_entrada": moment(value).format('YYYY-MM-DD'),
+                        "femea": data.femea,
+                        "macho": data.macho
+                    }
+                ]);
             })
             .catch(err => {
                 console.log(err);

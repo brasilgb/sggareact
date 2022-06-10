@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconContext } from 'react-icons';
 
 import { IoAdd, IoArrowBack, IoSave } from "react-icons/io5";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { ImSpinner6 } from "react-icons/im";
-import { useState } from 'react';
 
 export const AButtomAdd = ({ url }) => {
     const navigate = useNavigate();
@@ -40,7 +39,7 @@ export const AButtomBack = ({ url }) => {
         setReload(true);
         setTimeout(() => {
             navigate(url);
-            window.location.reload(true);
+            // window.location.reload(true);
         }, 1000)
     });
 

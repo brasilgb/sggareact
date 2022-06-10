@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 const Lotes = () => {
 
     const { lotes } = useContext(AuthContext);
-
+    
     return (
         <Fragment>
             <ABoxAll>
