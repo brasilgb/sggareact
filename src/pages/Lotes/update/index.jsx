@@ -23,7 +23,8 @@ const Update = () => {
 
     const { idlote } = useParams();
     const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(idlote)));
-    const [value, onChange] = useState(new Date(resLotes[0].data_entrada));
+ 
+    const [value, onChange] = useState(resLotes[0].data_entrada);
     const [message, setMessage] = useState('');
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
@@ -50,6 +51,7 @@ const Update = () => {
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
                 setMessage(response.data.message);
+                // console.log(response.data.aviarios);
                 const index = lotes.findIndex(object => {
                     return object.loteId === parseInt(idlote);
                   });
@@ -61,6 +63,7 @@ const Update = () => {
                     "loteId": parseInt(idlote),
                     "cicloId": cl[0].cicloId,
                     "lote": data.lote,
+                    "aviariosNumber": response.data.aviarios,
                     "data_entrada": moment(value).format('YYYY-MM-DD'),
                     "femea": data.femea,
                     "macho": data.macho

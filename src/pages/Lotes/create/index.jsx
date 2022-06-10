@@ -48,6 +48,7 @@ const Create = ({ loading }) => {
                         "loteId": response.data.lote.loteid,
                         "cicloId": cl[0].cicloId,
                         "lote": data.lote,
+                        "aviariosNumber": 0,
                         "data_entrada": moment(value).format('YYYY-MM-DD'),
                         "femea": data.femea,
                         "macho": data.macho

@@ -105,11 +105,11 @@ export const AButtomEdit = ({ url }) => {
     );
 }
 
-export const AButtomDelete = () => {
+export const AButtomDelete = ({onclick}) => {
     return (
         <Fragment>
             <button
-                type="submit"
+                onClick={onclick}
                 className='inline-flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-normal rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none'
             >
                 <IconContext.Provider value={{ className: "text-lg" }}>
