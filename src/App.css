@@ -7,3 +7,7 @@
     font-size: .93rem;
     border-color: rgb(209 213 219 / 1);
   }
+
+  .react-confirm-alert-overlay {
+    background: rgba(34, 34, 34, 0.8)!important;
+  }

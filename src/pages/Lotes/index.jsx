@@ -1,4 +1,6 @@
 import React, { Fragment, useContext, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { ABoxAll, ABoxBody, ABoxFooter, ABoxHeader, ABoxHeaderTitle } from '../../components/Boxes';
 import { ABreadcumb } from '../../components/Breadcumbs';
 import { AButtomAdd, AButtomDelete, AButtomEdit } from '../../components/Buttons';
@@ -16,12 +18,12 @@ const Lotes = () => {
     const { lotes, setLotes } = useContext(AuthContext);
     const [post, setPost] = useState();
 
-    async function deleteRow(id, e) {
-        e.preventDefault();
+    async function deleteLote(id) {
+        
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjQ2MDY5MzQwfQ.w3ZU9hoOq5AlXwqc6c9tfjtSoLh_evYysovzVVekQZ0";
 
         await api.delete('lotes', {
-            data: { loteId: id  },
+            data: { loteId: id },
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -29,17 +31,56 @@ const Lotes = () => {
             }
         })
             .then(res => {
-                // console.log(res);
-                // console.log(res.data);
-
                 const lot = lotes.filter(item => item.loteId !== id);
                 console.log(lot);
                 setLotes(lot);
             }).catch(err => {
                 console.log(err);
             })
-
     }
+
+
+    const deleteRow = ((id, e) => {
+        e.preventDefault();
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className="w-96 h-52 p-8 shadow text-center bg-gray-100 rounded ">
+                        <h1 className="text-xl">Têm certeza?</h1>
+                        <p className="my-6">Você deseja excluir este lote?</p>
+                        <button
+                            className="w-36 px-4 py-2 mr-2 bg-gray-700 rounded shadow text-white"
+                            onClick={onClose}>Não</button>
+                        <button
+                            className="w-36 px-4 py-2 ml-2 bg-red-700 rounded shadow text-white"
+                            onClick={() => {
+                                deleteLote(id);
+                                onClose();
+                            }}
+                        >
+                            Sim
+                        </button>
+                    </div>
+                );
+            }
+        });
+
+        //     confirmAlert({
+        //         title: 'Confirm to submit',
+        //         message: 'Are you sure to do this.',
+        //         buttons: [
+        //             {
+        //                 label: 'Yes',
+        //                 onClick: () => alert('deletado')
+        //             },
+        //             {
+        //                 label: 'No',
+        //                 //onClick: () => alert('Click No')
+        //             }
+        //         ]
+        //     });
+    })
+
     return (
         <Fragment>
             <ABoxAll>
@@ -104,6 +145,22 @@ const Lotes = () => {
                 <ABoxFooter>
                     <Pagination />
                 </ABoxFooter>
+                <div className="w-96 h-52 p-8 shadow-lg text-center bg-gray-50 rounded ">
+                    <h1 className="text-xl">Têm certeza?</h1>
+                    <p className="my-6">Você deseja excluir este lote?</p>
+                    <button
+                        className="w-36 px-4 py-2 mr-2 bg-gray-700 rounded shadow text-white"
+                        onClick={'onClose'}>Não</button>
+                    <button
+                        className="w-36 px-4 py-2 ml-2 bg-red-700 rounded shadow text-white"
+                        onClick={() => {
+                            alert('Feito');
+                            //   onClose();
+                        }}
+                    >
+                        Sim
+                    </button>
+                </div>
             </ABoxAll>
         </Fragment>
     );
