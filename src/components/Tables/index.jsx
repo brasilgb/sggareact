@@ -10,7 +10,7 @@ export const ATable = ({ children }) => {
     );
 };
 
-export const ATr = ({ thead, children }) => {
+export const ATr = ({ thead, children, colorRow }) => {
     return (
         <Fragment>
 
@@ -22,7 +22,7 @@ export const ATr = ({ thead, children }) => {
                 </thead>
                 :
                 <tbody>
-                    <tr>
+                    <tr className={`${colorRow > 0 ? "bg-gray-50" :"bg-blue-50"} hover:bg-orange-50`}>
                         {children}
                     </tr>
                 </tbody>
@@ -32,12 +32,12 @@ export const ATr = ({ thead, children }) => {
     );
 };
 
-export const ATh = ({ children, colspan }) => {
+export const ATh = ({ children, colspan, width }) => {
     return (
         <Fragment>
             <th
             colSpan={colspan}
-                className='text-left bg-gray-200 px-2 py-2 text-md'
+                className={`text-left bg-gray-200 px-2 py-2 text-md ${width}`}
             >
                     {children}
             </th>
@@ -50,7 +50,7 @@ export const ATd = ({ children, colspan }) => {
         <Fragment>
             <td
                 colSpan={colspan}
-                className='p-2 border-b border-gray-100 text-md'
+                className='px-2 py-2 border-b border-gray-100 text-md'
             >
                 {children}
             </td>

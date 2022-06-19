@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [redLogin, setRedLogin] = useState(false);
@@ -141,11 +141,16 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        setLoading(true);
         async function getLotes() {
             await api.get('lotes')
                 .then((lotes) => {
-                    const lsort = lotes.data.lotes.sort((a, b) => a.lote > b.lote ? 1 : -1);
+                    const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
                     setLotes(lsort);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 1000);
+                    
                 })
                 .catch(err => {
                     console.log(err);
@@ -216,6 +221,7 @@ export const AuthProvider = ({ children }) => {
                 !!user,
             user,
             // userAccess,
+            setLoading,
             loading,
             setErrorMessage,
             // setNumFilial,

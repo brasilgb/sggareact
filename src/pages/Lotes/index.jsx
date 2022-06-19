@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { ABoxAll, ABoxBody, ABoxFooter, ABoxHeader, ABoxHeaderTitle } from '../../components/Boxes';
@@ -8,20 +8,62 @@ import { AInputSearch } from '../../components/Forms/Inputs';
 import { IconContext } from 'react-icons';
 import { IoFileTrayStacked } from "react-icons/io5";
 import { ATable, ATd, ATh, ATr } from '../../components/Tables';
-import { Pagination } from '../../components/Pagination';
+import ReactPaginate from 'react-paginate';
 import { AuthContext } from '../../contexts/auth';
 import moment from 'moment';
 import api from '../../services/api';
 
 const Lotes = () => {
 
-    const { lotes, setLotes } = useContext(AuthContext);
-    const [post, setPost] = useState();
+    const { lotes, setLotes, loading, setLoading } = useContext(AuthContext);
+
+    const [lote, setLote] = useState(lotes.slice(0, 5000));
+
+    useEffect(() => {
+        setLote(lotes.slice(0, 1000));
+    }, [lotes])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+    })
+
+    const [pageNumber, setPageNumber] = useState(0);
+
+    const lotePerPage = 10;
+    const pagesVisited = pageNumber * lotePerPage;
+    const displayLotes = lote
+        .slice(pagesVisited, pagesVisited + lotePerPage)
+        .map((lt, index) => {
+            return (
+                <ATr key={index} thead={false} colorRow={(index % 2)}>
+                    <ATd>{lt.lote}</ATd>
+                    <ATd>{lt.femea}</ATd>
+                    <ATd>{lt.capi_femea}</ATd>
+                    <ATd>{lt.macho}</ATd>
+                    <ATd>{lt.capi_macho}</ATd>
+                    <ATd>{lt.femea + lt.macho}</ATd>
+                    <ATd>{lt.aviariosNumber}</ATd>
+                    <ATd>{moment(lt.data_entrada, true).locale('pt-br').format('DD/MM/YYYY')}</ATd>
+                    <ATd>
+                        <AButtomEdit url={`/lotes/${lt.loteId}`} />
+
+                        <AButtomDelete onclick={(e) => deleteRow(lt.loteId, e)} />
+
+                    </ATd>
+                </ATr>
+            );
+        });
+
+    const pageCount = Math.ceil(lote.length / lotePerPage);
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
+
 
     async function deleteLote(id) {
-        
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjQ2MDY5MzQwfQ.w3ZU9hoOq5AlXwqc6c9tfjtSoLh_evYysovzVVekQZ0";
-
         await api.delete('lotes', {
             data: { loteId: id },
             headers: {
@@ -38,8 +80,6 @@ const Lotes = () => {
                 console.log(err);
             })
     }
-
-
     const deleteRow = ((id, e) => {
         e.preventDefault();
         confirmAlert({
@@ -64,22 +104,8 @@ const Lotes = () => {
                 );
             }
         });
-
-        //     confirmAlert({
-        //         title: 'Confirm to submit',
-        //         message: 'Are you sure to do this.',
-        //         buttons: [
-        //             {
-        //                 label: 'Yes',
-        //                 onClick: () => alert('deletado')
-        //             },
-        //             {
-        //                 label: 'No',
-        //                 //onClick: () => alert('Click No')
-        //             }
-        //         ]
-        //     });
     })
+
 
     return (
         <Fragment>
@@ -109,7 +135,7 @@ const Lotes = () => {
 
                     <ATable>
                         <ATr thead={true}>
-                            <ATh>Lote</ATh>
+                            <ATh width="w-28">Lote</ATh>
                             <ATh>Fêmeas</ATh>
                             <ATh>Capitalizadas/Data</ATh>
                             <ATh>Machos</ATh>
@@ -117,50 +143,27 @@ const Lotes = () => {
                             <ATh>Total Aves</ATh>
                             <ATh>Aviários</ATh>
                             <ATh>Cadastro</ATh>
-                            <ATh></ATh>
+                            <ATh width="w-56"></ATh>
                         </ATr>
-                        {lotes.map((lote, index) => (
-                            <ATr key={index} thead={false}>
-                                <ATd>{lote.lote}</ATd>
-                                <ATd>{lote.femea}</ATd>
-                                <ATd>{lote.capi_femea}</ATd>
-                                <ATd>{lote.macho}</ATd>
-                                <ATd>{lote.capi_macho}</ATd>
-                                <ATd>{lote.femea + lote.macho}</ATd>
-                                <ATd>{lote.aviariosNumber}</ATd>
-                                <ATd>{moment(lote.data_entrada).format('DD/MM/YYYY')}</ATd>
-                                <ATd>
-                                    <AButtomEdit url={`/lotes/${lote.loteId}`} />
-
-                                    <AButtomDelete onclick={(e) => deleteRow(lote.loteId, e)} />
-
-                                </ATd>
-                            </ATr>
-                        ))}
-
-
+                        {displayLotes}
                     </ATable>
 
                 </ABoxBody>
                 <ABoxFooter>
-                    <Pagination />
+                    <ReactPaginate
+                        previousLabel={"Anterior"}
+                        nextLabel={"Próximo"}
+                        pageCount={pageCount}
+                        onPageChange={changePage}
+                        containerClassName="flex px-4 items-center justify-center paginationButtns"
+                        pageLinkClassName="flex items-center px-4 py-2 transform rounded-md"
+                        previousLinkClassName="flex items-center mr-2 transform rounded-md"
+                        nextLinkClassName="flex items-center ml-2 transform rounded-md"
+                        disabledClassName="flex items-centertext-gray-300 cursor-not-allowed"
+                        activeClassName="flex items-center text-gray-50 transform bg-blue-500 rounded-md shadow-md border border-white hover:shadow-md"
+                    />
                 </ABoxFooter>
-                <div className="w-96 h-52 p-8 shadow-lg text-center bg-gray-50 rounded ">
-                    <h1 className="text-xl">Têm certeza?</h1>
-                    <p className="my-6">Você deseja excluir este lote?</p>
-                    <button
-                        className="w-36 px-4 py-2 mr-2 bg-gray-700 rounded shadow text-white"
-                        onClick={'onClose'}>Não</button>
-                    <button
-                        className="w-36 px-4 py-2 ml-2 bg-red-700 rounded shadow text-white"
-                        onClick={() => {
-                            alert('Feito');
-                            //   onClose();
-                        }}
-                    >
-                        Sim
-                    </button>
-                </div>
+
             </ABoxAll>
         </Fragment>
     );

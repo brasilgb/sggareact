@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/auth';
 import Sidebar from './components/Sidebar';
 
 function App() {
+
   return (
 
     <Router>

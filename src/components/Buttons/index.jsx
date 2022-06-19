@@ -15,7 +15,7 @@ export const AButtomAdd = ({ url }) => {
             <div className='flex-grow'>
                 <button
                     onClick={() => navigate(url)}
-                    className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
+                    className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
                 >
                     <IconContext.Provider value={{ className: "text-lg" }}>
                         <div>
@@ -33,31 +33,17 @@ export const AButtomAdd = ({ url }) => {
 export const AButtomBack = ({ url }) => {
     const navigate = useNavigate();
 
-    const [reload, setReload] = useState(false);
-
-    const loadButtom = (() => {
-        setReload(true);
-        setTimeout(() => {
-            navigate(url);
-            // window.location.reload(true);
-        }, 1000)
-    });
-
     return (
         <Fragment>
 
             <div className='flex-grow'>
                 <button
-                    onClick={() => loadButtom()}
-                    className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
+                    onClick={() => navigate(url)}
+                    className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
                 >
                     <IconContext.Provider value={{ className: "text-lg" }}>
                         <div>
-                            {reload ?
-                                <span><ImSpinner6 className="animate-spin" /></span>
-                                :
-                                <IoArrowBack />
-                            }
+                            <IoArrowBack />
                         </div>
                     </IconContext.Provider>
                     <span className='ml-1 text-md'>Voltar</span>
@@ -92,9 +78,9 @@ export const AButtomEdit = ({ url }) => {
         <Fragment>
             <button
                 onClick={() => navigate(url)}
-                className='inline-flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-normal rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none'
+                className='inline-flex items-center justify-center py-1 px-4 border-2 border-white shadow-sm font-normal rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none'
             >
-                <IconContext.Provider value={{ className: "text-lg" }}>
+                <IconContext.Provider value={{ className: "text-md" }}>
                     <div>
                         <FaRegEdit />
                     </div>
@@ -105,14 +91,14 @@ export const AButtomEdit = ({ url }) => {
     );
 }
 
-export const AButtomDelete = ({onclick}) => {
+export const AButtomDelete = ({ onclick }) => {
     return (
         <Fragment>
             <button
                 onClick={onclick}
-                className='inline-flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm font-normal rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none'
+                className='inline-flex items-center justify-center py-1 px-4 border-2 border-white shadow-sm font-normal rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none'
             >
-                <IconContext.Provider value={{ className: "text-lg" }}>
+                <IconContext.Provider value={{ className: "text-md" }}>
                     <div>
                         <FaRegTrashAlt />
                     </div>
