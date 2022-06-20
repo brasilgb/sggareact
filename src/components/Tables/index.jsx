@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-
+import 'animate.css';
 export const ATable = ({ children }) => {
     return (
         <Fragment>
@@ -21,7 +21,7 @@ export const ATr = ({ thead, children, colorRow }) => {
                     </tr>
                 </thead>
                 :
-                <tbody>
+                <tbody className="animate__animated animate__fadeIn">
                     <tr className={`${colorRow > 0 ? "bg-gray-50" :"bg-blue-50"} hover:bg-orange-50`}>
                         {children}
                     </tr>

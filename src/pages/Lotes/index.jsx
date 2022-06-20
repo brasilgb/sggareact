@@ -12,22 +12,20 @@ import ReactPaginate from 'react-paginate';
 import { AuthContext } from '../../contexts/auth';
 import moment from 'moment';
 import api from '../../services/api';
+import ReactLoading from 'react-loading';
 
 const Lotes = () => {
 
-    const { lotes, setLotes, loading, setLoading } = useContext(AuthContext);
-
+    const { lotes, setLotes } = useContext(AuthContext);
+    const [loading, setLoading] = useState(undefined);
     const [lote, setLote] = useState(lotes.slice(0, 5000));
 
     useEffect(() => {
-        setLote(lotes.slice(0, 1000));
-    }, [lotes])
-
-    useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
-        }, 1000);
-    })
+            setLote(lotes.slice(0, 1000));
+            setLoading(true);
+        }, 1200)
+    }, [lotes])
 
     const [pageNumber, setPageNumber] = useState(0);
 
@@ -109,6 +107,7 @@ const Lotes = () => {
 
     return (
         <Fragment>
+
             <ABoxAll>
                 <ABoxHeader>
                     <ABoxHeaderTitle>
@@ -145,26 +144,34 @@ const Lotes = () => {
                             <ATh>Cadastro</ATh>
                             <ATh width="w-56"></ATh>
                         </ATr>
-                        {displayLotes}
+                        {!loading ?
+                            <div className="absolute top-0 left-0 right-0 flex items-center justify-center w-full h-screen bg-indigo-600 bg-opacity-10">
+                                <ReactLoading className="mx-auto" type="bars" color="#0D2237" height={50} width={50} />
+                            </div>
+                            :
+                            displayLotes
+                        }
                     </ATable>
 
                 </ABoxBody>
-                <ABoxFooter>
-                    <ReactPaginate
-                        previousLabel={"Anterior"}
-                        nextLabel={"Próximo"}
-                        pageCount={pageCount}
-                        onPageChange={changePage}
-                        containerClassName="flex px-4 items-center justify-center paginationButtns"
-                        pageLinkClassName="flex items-center px-4 py-2 transform rounded-md"
-                        previousLinkClassName="flex items-center mr-2 transform rounded-md"
-                        nextLinkClassName="flex items-center ml-2 transform rounded-md"
-                        disabledClassName="flex items-centertext-gray-300 cursor-not-allowed"
-                        activeClassName="flex items-center text-gray-50 transform bg-blue-500 rounded-md shadow-md border border-white hover:shadow-md"
-                    />
-                </ABoxFooter>
-
+                {lote.length > lotePerPage &&
+                    <ABoxFooter>
+                        <ReactPaginate
+                            previousLabel={"Anterior"}
+                            nextLabel={"Próximo"}
+                            pageCount={pageCount}
+                            onPageChange={changePage}
+                            containerClassName="flex px-4 items-center justify-center paginationButtns"
+                            pageLinkClassName="flex items-center px-4 py-2 transform rounded-md"
+                            previousLinkClassName="flex items-center mr-2 transform rounded-md"
+                            nextLinkClassName="flex items-center ml-2 transform rounded-md"
+                            disabledClassName="flex items-centertext-gray-300 cursor-not-allowed"
+                            activeClassName="flex items-center text-gray-50 transform bg-blue-500 rounded-md shadow-md border border-white hover:shadow-md"
+                        />
+                    </ABoxFooter>
+                }
             </ABoxAll>
+
         </Fragment>
     );
 };

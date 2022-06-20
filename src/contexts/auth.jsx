@@ -150,7 +150,7 @@ export const AuthProvider = ({ children }) => {
                     setTimeout(() => {
                         setLoading(false);
                     }, 1000);
-                    
+
                 })
                 .catch(err => {
                     console.log(err);
@@ -239,7 +239,7 @@ export const AuthProvider = ({ children }) => {
             // numFilial,
             // valuesKpis,
             // totalValuesKpis,
-            
+
             loadList,
             loadButton
         }}>
