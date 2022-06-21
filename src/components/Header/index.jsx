@@ -18,13 +18,15 @@ const Header = () => {
 
     return (
         <Fragment>
-            <header className="flex justify-between items-center py-4 px-6 bg-gray200 border-b border-white shadow">
+            <header className="flex justify-between items-center py-4 px-6 bg-gray-200 border-b border-white shadow"
+            style={{backgroundColor: "#0D2237"}}
+            >
                 <div className="flex items-center"></div>
 
                 <div className="flex items-center">
                     <div x-data="{ notificationOpen: false }" className="relative">
                         <button
-                            className="flex mx-4 text-gray-600 focus:outline-none">
+                            className="flex mx-4 text-gray-100 focus:outline-none">
                             <IconContext.Provider value={{ className: "text-2xl font-bold" }}>
                                 <div>
                                     <IoNotificationsOutline />
@@ -54,7 +56,7 @@ const Header = () => {
                     <div x-data="{ dropdownOpen: false }" className="relative">
                         <button
                             className="relative block focus:outline-none">
-                            <IconContext.Provider value={{ className: "text-3xl font-bold text-gray-500" }}>
+                            <IconContext.Provider value={{ className: "text-3xl font-bold text-gray-100" }}>
                                 <div>
                                     <IoPersonCircleOutline />
                                 </div>
