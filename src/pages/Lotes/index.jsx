@@ -46,9 +46,7 @@ const Lotes = () => {
                     <ATd>{moment(lt.data_entrada, true).locale('pt-br').format('DD/MM/YYYY')}</ATd>
                     <ATd>
                         <AButtomEdit url={`/lotes/${lt.loteId}`} />
-
                         <AButtomDelete onclick={(e) => deleteRow(lt.loteId, e)} />
-
                     </ATd>
                 </ATr>
             );
@@ -58,7 +56,6 @@ const Lotes = () => {
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     };
-
 
     async function deleteLote(id) {
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjQ2MDY5MzQwfQ.w3ZU9hoOq5AlXwqc6c9tfjtSoLh_evYysovzVVekQZ0";
@@ -72,12 +69,14 @@ const Lotes = () => {
         })
             .then(res => {
                 const lot = lotes.filter(item => item.loteId !== id);
-                console.log(lot);
-                setLotes(lot);
+                // console.log(lot);
+                setLote(lot);
             }).catch(err => {
                 console.log(err);
             })
+
     }
+
     const deleteRow = ((id, e) => {
         e.preventDefault();
         confirmAlert({
@@ -145,9 +144,13 @@ const Lotes = () => {
                             <ATh width="w-56"></ATh>
                         </ATr>
                         {!loading ?
-                            <div className="absolute top-0 left-0 right-0 flex items-center justify-center w-full h-screen bg-indigo-600 bg-opacity-10">
-                                <ReactLoading className="mx-auto" type="bars" color="#0D2237" height={50} width={50} />
-                            </div>
+                            <ATr>
+                                <ATd>
+                                    <div className="absolute top-0 left-0 right-0 flex items-center justify-center w-full h-screen bg-indigo-600 bg-opacity-20">
+                                        <ReactLoading className="mx-auto" type="bars" color="#0D2237" height={50} width={50} />
+                                    </div>
+                                </ATd>
+                            </ATr>
                             :
                             displayLotes
                         }

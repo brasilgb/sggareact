@@ -21,6 +21,7 @@ import Lotes from '..';
 const Create = ({ loading }) => {
 
     const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { ciclos, lotes, setLotes } = useContext(AuthContext);
 
@@ -41,8 +42,6 @@ const Create = ({ loading }) => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                reset();
-                setMessage(response.data.message);
                 setLotes([...lotes, 
                     {
                         "loteId": response.data.lote.loteid,
@@ -54,9 +53,13 @@ const Create = ({ loading }) => {
                         "macho": data.macho
                     }
                 ]);
+                setErrorMessage('');
+                reset();
+                setMessage(response.data.message);
+                
             })
-            .catch(err => {
-                console.log(err);
+            .catch((err) => {
+                setErrorMessage(err.response.data.message);
             })
     }
 
@@ -87,7 +90,7 @@ const Create = ({ loading }) => {
 
                 <ABoxBody>
                     <form onSubmit={handleSubmit(onSubmit)} >
-                        {message && <BoxMessage message={message} openanimate={"animate__fadeInRight"} closeanimate={"animate__fadeOutRight"} />}
+                        {message && <BoxMessage message={message} />}
                         <ABoxFormBody>
 
                             <div className="md:flex items-center mt-8">
@@ -123,6 +126,7 @@ const Create = ({ loading }) => {
                                     placeholder=""
                                     className={`formatInput ${errors.lote ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
                                 />
+                                {errorMessage && <BoxError text={errorMessage} />}
                                 {errors.lote && errors.lote?.type === 'required' && <BoxError text={errors.lote.message} />}
                             </AInput>
 

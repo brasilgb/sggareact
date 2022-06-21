@@ -23,7 +23,7 @@ const Update = () => {
 
     const { idlote } = useParams();
     const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(idlote)));
- 
+
     const [value, onChange] = useState(resLotes[0].data_entrada);
     const [message, setMessage] = useState('');
     const cl = ciclos.filter((ci) => ci.ativo == 1);
@@ -50,16 +50,14 @@ const Update = () => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                setMessage(response.data.message);
-                // console.log(response.data.aviarios);
                 const index = lotes.findIndex(object => {
                     return object.loteId === parseInt(idlote);
-                  });
-                  if(index < 0){
+                });
+                if (index < 0) {
                     console.log('Não Têm...');
-                  }
-                  let ltemp = lotes;
-                  ltemp[index] = {
+                }
+                let ltemp = lotes;
+                ltemp[index] = {
                     "loteId": parseInt(idlote),
                     "cicloId": cl[0].cicloId,
                     "lote": data.lote,
@@ -69,6 +67,7 @@ const Update = () => {
                     "macho": data.macho
                 }
                 setLotes(ltemp);
+                setMessage(response.data.message);
             })
             .catch(err => {
                 console.log(err);
@@ -102,7 +101,7 @@ const Update = () => {
 
                 <ABoxBody>
                     <form onSubmit={handleSubmit(onSubmit)} >
-                        {message && <BoxMessage message={message} openanimate={"animate__fadeInRight"} closeanimate={"animate__fadeOutRight"} />}
+                        {message && <BoxMessage message={message} />}
                         <ABoxFormBody>
 
                             <div className="md:flex items-center mt-8">
