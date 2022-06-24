@@ -19,7 +19,7 @@ const Lotes = () => {
     const { lotes, setLotes } = useContext(AuthContext);
     const [loading, setLoading] = useState(undefined);
     const [lote, setLote] = useState(lotes.slice(0, 5000));
-
+console.log(lotes);
     useEffect(() => {
         setTimeout(() => {
             setLote(lotes.slice(0, 1000));

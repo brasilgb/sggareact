@@ -20,19 +20,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Update = () => {
 
-    const { ciclos, lotes, setLotes } = useContext(AuthContext);
+    const { ciclos, aviarios, setAviarios } = useContext(AuthContext);
 
-    const { idlote } = useParams();
-    const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(idlote)));
+    const { idaviario } = useParams();
+    const resAviarios = aviarios.filter((lt) => (parseInt(lt.aviarioId) === parseInt(idaviario)));
 
-    const [value, onChange] = useState(resLotes[0].data_entrada);
+    const [value, onChange] = useState(resAviarios[0].data_entrada);
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
     const preloadedValues = {
-        lote: resLotes[0].lote,
-        femea: resLotes[0].femea,
-        macho: resLotes[0].macho
+        aviario: resAviarios[0].aviario,
+        femea: resAviarios[0].femea,
+        macho: resAviarios[0].macho
     }
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm({
@@ -41,32 +41,32 @@ const Update = () => {
 
     async function onSubmit(data) {
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
-        await api.patch('lotes', {
-            "loteId": parseInt(idlote),
+        await api.patch('aviarios', {
+            "aviarioId": parseInt(idaviario),
             "cicloId": cl[0].cicloId,
-            "lote": data.lote,
+            "aviario": data.aviario,
             "data_entrada": moment(value).format('YYYY-MM-DD'),
             "femea": data.femea,
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                const index = lotes.findIndex(object => {
-                    return object.loteId === parseInt(idlote);
+                const index = aviarios.findIndex(object => {
+                    return object.aviarioId === parseInt(idaviario);
                 });
                 if (index < 0) {
                     console.log('Não Têm...');
                 }
-                let ltemp = lotes;
+                let ltemp = aviarios;
                 ltemp[index] = {
-                    "loteId": parseInt(idlote),
+                    "aviarioId": parseInt(idaviario),
                     "cicloId": cl[0].cicloId,
-                    "lote": data.lote,
+                    "aviario": data.aviario,
                     "aviariosNumber": response.data.aviarios,
                     "data_entrada": moment(value).format('YYYY-MM-DD'),
                     "femea": data.femea,
                     "macho": data.macho
                 }
-                setLotes(ltemp);
+                setAviarios(ltemp);
                 toast.success(response.data.message, {
                     transition: Slide
                    })
@@ -87,19 +87,19 @@ const Update = () => {
                                 <IoFileTrayStacked />
                             </div>
                         </IconContext.Provider>
-                        <h1 className='ml-1 text-lg font-medium'>Lotes</h1>
+                        <h1 className='ml-1 text-lg font-medium'>Aviarios</h1>
                     </ABoxHeaderTitle>
                     <ABreadcumb links={
                         [
-                            { label: "Lotes", url: "/lotes", linked: true },
-                            { label: "Adicionar Lotes", url: "/lotesadd", linked: false }
+                            { label: "Aviarios", url: "/aviarios", linked: true },
+                            { label: "Adicionar Aviarios", url: "/aviariosadd", linked: false }
                         ]
                     } />
                 </ABoxHeader>
 
                 <ABoxHeader>
-                    <AButtomBack url="/lotes" state={setLotes} />
-                    <AInputSearch place="Buscar por lote" />
+                    <AButtomBack url="/aviarios" state={setAviarios} />
+                    <AInputSearch place="Buscar por aviario" />
                 </ABoxHeader>
 
                 <ABoxBody>
@@ -126,21 +126,21 @@ const Update = () => {
                                 </div>
                             </div>
 
-                            <AInput label="Descrição do lote" id="lote">
+                            <AInput label="Descrição do aviario" id="aviario">
                                 <input
-                                    id="lote"
-                                    name="lote"
-                                    {...register('lote', {
+                                    id="aviario"
+                                    name="aviario"
+                                    {...register('aviario', {
                                         required: {
                                             value: "Required",
-                                            message: 'Digite a descrição do lote!'
+                                            message: 'Digite a descrição do aviario!'
                                         }
                                     })}
                                     type="text"
                                     placeholder=""
-                                    className={`formatInput ${errors.lote ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
+                                    className={`formatInput ${errors.aviario ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
                                 />
-                                {errors.lote && errors.lote?.type === 'required' && <BoxError text={errors.lote.message} />}
+                                {errors.aviario && errors.aviario?.type === 'required' && <BoxError text={errors.aviario.message} />}
                             </AInput>
 
                             <AInput label="Aves fêmeas" id="femea">

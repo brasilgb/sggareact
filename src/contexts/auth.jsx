@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [redLogin, setRedLogin] = useState(false);
 
     const [lotes, setLotes] = useState([]);
+    const [aviarios, setAviarios] = useState([]);
     const [ciclos, setCiclos] = useState([]);
 
     const [loadList, setLoadList] = useState(true);
@@ -140,12 +141,13 @@ export const AuthProvider = ({ children }) => {
         getCiclos();
     }, []);
 
+    // Data Lotes
     useEffect(() => {
         setLoading(true);
         async function getLotes() {
             await api.get('lotes')
                 .then((lotes) => {
-                    const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
+                    const lsort = lotes.data.lote.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
                     setLotes(lsort);
                     setTimeout(() => {
                         setLoading(false);
@@ -157,6 +159,26 @@ export const AuthProvider = ({ children }) => {
                 })
         }
         getLotes();
+    }, []);
+
+    // Data Aviarios
+    useEffect(() => {
+        setLoading(true);
+        async function getAviarios() {
+            await api.get('aviarios')
+                .then((aviarios) => {
+                    const lsort = aviarios.data.aviarios.sort((a, b) => a.aviarioId < b.aviarioId ? 1 : -1);
+                    setAviarios(lsort);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 1000);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        getAviarios();
     }, []);
 
     // useEffect(() => {
@@ -235,6 +257,8 @@ export const AuthProvider = ({ children }) => {
             dataSearch,
             lotes,
             setLotes,
+            aviarios,
+            setAviarios,
             ciclos,
             // numFilial,
             // valuesKpis,

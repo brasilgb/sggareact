@@ -21,7 +21,7 @@ const Create = ({ loading }) => {
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { ciclos, lotes, setLotes } = useContext(AuthContext);
+    const { ciclos, aviarios, setAviarios } = useContext(AuthContext);
 
     const [value, onChange] = useState(new Date());
 
@@ -32,7 +32,7 @@ const Create = ({ loading }) => {
     const onSubmit = (data) => {
         setMessage('')
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
-        api.post('lotes', {
+        api.post('aviarios', {
             "cicloId": cl[0].cicloId,
             "lote": data.lote,
             "data_entrada": moment(value).format('YYYY-MM-DD'),
@@ -40,7 +40,7 @@ const Create = ({ loading }) => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                setLotes([...lotes, 
+                setAviarios([...aviarios, 
                     {
                         "loteId": response.data.lote.loteid,
                         "cicloId": cl[0].cicloId,
@@ -74,18 +74,18 @@ const Create = ({ loading }) => {
                                 <IoFileTrayStacked />
                             </div>
                         </IconContext.Provider>
-                        <h1 className='ml-1 text-lg font-medium'>Lotes</h1>
+                        <h1 className='ml-1 text-lg font-medium'>Aviarios</h1>
                     </ABoxHeaderTitle>
                     <ABreadcumb links={
                         [
-                            { label: "Lotes", url: "/lotes", linked: true },
-                            { label: "Adicionar Lotes", url: "/lotesadd", linked: false }
+                            { label: "Aviarios", url: "/aviarios", linked: true },
+                            { label: "Adicionar Aviarios", url: "/aviariosadd", linked: false }
                         ]
                     } />
                 </ABoxHeader>
 
                 <ABoxHeader>
-                    <AButtomBack url="/lotes" />
+                    <AButtomBack url="/aviarios" />
                     <AInputSearch place="Buscar por lote" />
                 </ABoxHeader>
 

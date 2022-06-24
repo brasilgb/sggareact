@@ -16,51 +16,47 @@ import ReactLoading from 'react-loading';
 
 const Aviarios = () => {
 
-    const { lotes, setLotes } = useContext(AuthContext);
+    const { aviarios, setAviarios } = useContext(AuthContext);
     const [loading, setLoading] = useState(undefined);
-    const [lote, setLote] = useState(lotes.slice(0, 5000));
-
+    const [aviario, setAviario] = useState(aviarios.slice(0, 5000));
+console.log(aviarios);
     useEffect(() => {
         setTimeout(() => {
-            setLote(lotes.slice(0, 1000));
+            setAviario(aviarios.slice(0, 1000));
             setLoading(true);
         }, 1200)
-    }, [lotes])
+    }, [aviarios])
 
     const [pageNumber, setPageNumber] = useState(0);
 
-    const lotePerPage = 10;
-    const pagesVisited = pageNumber * lotePerPage;
-    const displayLotes = lote
-        .slice(pagesVisited, pagesVisited + lotePerPage)
+    const aviarioPerPage = 10;
+    const pagesVisited = pageNumber * aviarioPerPage;
+    const displayAviarios = aviario
+        .slice(pagesVisited, pagesVisited + aviarioPerPage)
         .map((lt, index) => {
             return (
                 <ATr key={index} thead={false} colorRow={(index % 2)}>
-                    <ATd>{lt.lote}</ATd>
-                    <ATd>{lt.femea}</ATd>
-                    <ATd>{lt.capi_femea}</ATd>
-                    <ATd>{lt.macho}</ATd>
-                    <ATd>{lt.capi_macho}</ATd>
-                    <ATd>{lt.femea + lt.macho}</ATd>
-                    <ATd>{lt.aviariosNumber}</ATd>
+                    <ATd>{lt.aviario}</ATd>
+                    <ATd>{lt.totl_femea}</ATd>
+                    <ATd>{lt.totl_macho}</ATd>
                     <ATd>{moment(lt.data_entrada, true).locale('pt-br').format('DD/MM/YYYY')}</ATd>
                     <ATd>
-                        <AButtomEdit url={`/lotes/${lt.loteId}`} />
-                        <AButtomDelete onclick={(e) => deleteRow(lt.loteId, e)} />
+                        <AButtomEdit url={`/aviarios/${lt.aviarioId}`} />
+                        <AButtomDelete onclick={(e) => deleteRow(lt.aviarioId, e)} />
                     </ATd>
                 </ATr>
             );
         });
 
-    const pageCount = Math.ceil(lote.length / lotePerPage);
+    const pageCount = Math.ceil(aviario.length / aviarioPerPage);
     const changePage = ({ selected }) => {
         setPageNumber(selected);
     };
 
-    async function deleteLote(id) {
+    async function deleteAviario(id) {
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjQ2MDY5MzQwfQ.w3ZU9hoOq5AlXwqc6c9tfjtSoLh_evYysovzVVekQZ0";
-        await api.delete('lotes', {
-            data: { loteId: id },
+        await api.delete('aviarios', {
+            data: { aviarioId: id },
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -68,9 +64,9 @@ const Aviarios = () => {
             }
         })
             .then(res => {
-                const lot = lotes.filter(item => item.loteId !== id);
+                const lot = aviarios.filter(item => item.aviarioId !== id);
                 // console.log(lot);
-                setLote(lot);
+                setAviario(lot);
             }).catch(err => {
                 console.log(err);
             })
@@ -84,14 +80,14 @@ const Aviarios = () => {
                 return (
                     <div className="w-96 h-52 p-8 shadow text-center bg-gray-100 rounded ">
                         <h1 className="text-xl">Têm certeza?</h1>
-                        <p className="my-6">Você deseja excluir este lote?</p>
+                        <p className="my-6">Você deseja excluir este aviario?</p>
                         <button
                             className="w-36 px-4 py-2 mr-2 bg-gray-700 rounded shadow text-white"
                             onClick={onClose}>Não</button>
                         <button
                             className="w-36 px-4 py-2 ml-2 bg-red-700 rounded shadow text-white"
                             onClick={() => {
-                                deleteLote(id);
+                                deleteAviario(id);
                                 onClose();
                             }}
                         >
@@ -115,31 +111,27 @@ const Aviarios = () => {
                                 <IoFileTrayStacked />
                             </div>
                         </IconContext.Provider>
-                        <h1 className='ml-1 text-lg font-medium'>Lotes</h1>
+                        <h1 className='ml-1 text-lg font-medium'>Aviarios</h1>
                     </ABoxHeaderTitle>
                     <ABreadcumb links={
                         [
-                            { label: "Lotes", url: "/lotes", linked: false }
+                            { label: "Aviarios", url: "/aviarios", linked: false }
                         ]
                     } />
                 </ABoxHeader>
 
                 <ABoxHeader>
-                    <AButtomAdd url="/lotes/create" />
-                    <AInputSearch place="Buscar por lote" />
+                    <AButtomAdd url="/aviarios/create" />
+                    <AInputSearch place="Buscar por aviario" />
                 </ABoxHeader>
 
                 <ABoxBody>
 
                     <ATable>
                         <ATr thead={true}>
-                            <ATh width="w-28">Lote</ATh>
+                            <ATh width="w-28">Aviario</ATh>
                             <ATh>Fêmeas</ATh>
-                            <ATh>Capitalizadas/Data</ATh>
                             <ATh>Machos</ATh>
-                            <ATh>Capitalizadas/Data</ATh>
-                            <ATh>Total Aves</ATh>
-                            <ATh>Aviários</ATh>
                             <ATh>Cadastro</ATh>
                             <ATh width="w-56"></ATh>
                         </ATr>
@@ -152,12 +144,12 @@ const Aviarios = () => {
                                 </ATd>
                             </ATr>
                             :
-                            displayLotes
+                            displayAviarios
                         }
                     </ATable>
 
                 </ABoxBody>
-                {lote.length > lotePerPage &&
+                {aviario.length > aviarioPerPage &&
                     <ABoxFooter>
                         <ReactPaginate
                             previousLabel={"Anterior"}
