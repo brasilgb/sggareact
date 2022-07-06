@@ -21,7 +21,7 @@ const Create = ({ loading }) => {
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { ciclos, aviarios, setAviarios } = useContext(AuthContext);
+    const { ciclos, lotes, aviarios, setAviarios } = useContext(AuthContext);
 
     const [value, onChange] = useState(new Date());
 
@@ -40,23 +40,23 @@ const Create = ({ loading }) => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                setAviarios([...aviarios, 
-                    {
-                        "loteId": response.data.lote.loteid,
-                        "cicloId": cl[0].cicloId,
-                        "lote": data.lote,
-                        "aviariosNumber": 0,
-                        "data_entrada": moment(value).format('YYYY-MM-DD'),
-                        "femea": data.femea,
-                        "macho": data.macho
-                    }
+                setAviarios([...aviarios,
+                {
+                    "loteId": response.data.lote.loteid,
+                    "cicloId": cl[0].cicloId,
+                    "lote": data.lote,
+                    "aviariosNumber": 0,
+                    "data_entrada": moment(value).format('YYYY-MM-DD'),
+                    "femea": data.femea,
+                    "macho": data.macho
+                }
                 ]);
                 setErrorMessage('');
                 reset();
                 toast.success(response.data.message, {
                     transition: Slide
-                   })
-                
+                })
+
             })
             .catch((err) => {
                 setErrorMessage(err.response.data.message);
@@ -65,7 +65,7 @@ const Create = ({ loading }) => {
 
     return (
         <Fragment>
-                        <ToastContainer position="top-right"  autoClose={5000} />
+            <ToastContainer position="top-right" autoClose={5000} />
             <ABoxAll>
                 <ABoxHeader>
                     <ABoxHeaderTitle>
@@ -94,7 +94,7 @@ const Create = ({ loading }) => {
 
                         <ABoxFormBody>
 
-                            <div className="md:flex items-center mt-8">
+                            <div className="lg:flex items-center mt-8">
                                 <div className="w-full flex flex-col">
                                     <label className="block font-medium text-gray-600">
                                         Data de cadastro
@@ -114,7 +114,7 @@ const Create = ({ loading }) => {
                             </div>
 
                             <AInput label="Descrição do lote" id="lote">
-                                <input
+                                <select
                                     id="lote"
                                     name="lote"
                                     {...register('lote', {
@@ -126,45 +126,110 @@ const Create = ({ loading }) => {
                                     type="text"
                                     placeholder=""
                                     className={`formatInput ${errors.lote ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
-                                />
+                                >
+                                    <option value="0">Selecione o Lote</option>
+                                    {lotes.map((lote, index) => (
+
+                                        <option key={index} value={lote.loteId}>{lote.lote}</option>
+                                    ))}
+
+                                </select>
                                 {errorMessage && <BoxError text={errorMessage} />}
                                 {errors.lote && errors.lote?.type === 'required' && <BoxError text={errors.lote.message} />}
                             </AInput>
 
-                            <AInput label="Aves fêmeas" id="femea">
-                                <input
-                                    id="femea"
-                                    name="femea"
-                                    {...register('femea', {
-                                        required: {
-                                            value: "Required",
-                                            message: 'Digite o número de fêmeas!'
-                                        }
-                                    })}
-                                    type="text"
-                                    placeholder=""
-                                    className={`formatInput ${errors.femea ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
-                                />
-                                {errors.femea && errors.femea?.type === 'required' && <BoxError text={errors.femea.message} />}
-                            </AInput>
+                            {/* Insere box número 1 */}
+                            <div className=" mt-4  border border-gray-300 rounded">
+                                <div className="bg-gray-200 p-2 border-b border-gray-300">
+                                    <h1 className="text-base text-gray-600 font-semibold uppercase">Box 1</h1>
+                                </div>
+                                <div className="lg:flex flex-row gap-4 p-2">
+                                    <div className="lg:flex-1">
+                                        <AInput label="Aves fêmeas" id="box1_femea">
+                                            <input
+                                                id="box1_femea"
+                                                name="box1_femea"
+                                                {...register('box1_femea', {
+                                                    required: {
+                                                        value: "Required",
+                                                        message: 'Digite o número de fêmeas!'
+                                                    }
+                                                })}
+                                                type="text"
+                                                placeholder=""
+                                                className={`formatInput ${errors.box1_femea ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
+                                            />
+                                            {errors.box1_femea && errors.box1_femea?.type === 'required' && <BoxError text={errors.box1_femea.message} />}
+                                        </AInput>
+                                    </div>
 
-                            <AInput label="Aves machos" id="macho">
-                                <input
-                                    id="macho"
-                                    name="macho"
-                                    {...register('macho', {
-                                        required: {
-                                            value: "Required",
-                                            message: 'Digite o número de machos!'
-                                        }
-                                    })}
-                                    type="text"
-                                    placeholder=""
-                                    className={`formatInput ${errors.macho ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
-                                />
-                                {errors.macho && errors.macho?.type === 'required' && <BoxError text={errors.macho.message} />}
-                            </AInput>
+                                    <div className="lg:flex-1">
+                                        <AInput label="Aves machos" id="box1_macho">
+                                            <input
+                                                id="box1_macho"
+                                                name="box1_macho"
+                                                {...register('box1_macho', {
+                                                    required: {
+                                                        value: "Required",
+                                                        message: 'Digite o número de machos!'
+                                                    }
+                                                })}
+                                                type="text"
+                                                placeholder=""
+                                                className={`formatInput ${errors.box1_macho ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
+                                            />
+                                            {errors.box1_macho && errors.box1_macho?.type === 'required' && <BoxError text={errors.box1_macho.message} />}
+                                        </AInput>
+                                    </div>
 
+                                </div>
+                            </div>
+                            {/* Insere box número 2 */}
+                            <div className=" mt-4  border border-gray-300 rounded">
+                                <div className="bg-gray-200 border-b border-gray-300 p-2">
+                                    <h1 className="text-base text-gray-600 font-semibold uppercase">Box 2</h1>
+                                </div>
+                                <div className="lg:flex flex-row gap-4 p-2">
+                                    <div className="lg:flex-1">
+                                        <AInput label="Aves fêmeas" id="box2_femea">
+                                            <input
+                                                id="box2_femea"
+                                                name="box2_femea"
+                                                {...register('box2_femea', {
+                                                    required: {
+                                                        value: "Required",
+                                                        message: 'Digite o número de fêmeas!'
+                                                    }
+                                                })}
+                                                type="text"
+                                                placeholder=""
+                                                className={`formatInput ${errors.box2_femea ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
+                                            />
+                                            {errors.box2_femea && errors.box2_femea?.type === 'required' && <BoxError text={errors.box2_femea.message} />}
+                                        </AInput>
+                                    </div>
+
+                                    <div className="lg:flex-1">
+                                        <AInput label="Aves machos" id="box2_macho">
+                                            <input
+                                                id="box2_macho"
+                                                name="box2_macho"
+                                                {...register('box2_macho', {
+                                                    required: {
+                                                        value: "Required",
+                                                        message: 'Digite o número de machos!'
+                                                    }
+                                                })}
+                                                type="text"
+                                                placeholder=""
+                                                className={`formatInput ${errors.box2_macho ? 'focus:border-1 focus:ring-0 rounded-t-md' : 'rounded-md focus:border-blue-400 focus:ring-blue-300'}`}
+                                            />
+                                            {errors.box2_macho && errors.box2_macho?.type === 'required' && <BoxError text={errors.box2_macho.message} />}
+                                        </AInput>
+                                    </div>
+
+                                </div>
+                            </div>
                         </ABoxFormBody>
                     </form>
                 </ABoxBody>

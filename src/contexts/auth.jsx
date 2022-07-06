@@ -147,7 +147,7 @@ export const AuthProvider = ({ children }) => {
         async function getLotes() {
             await api.get('lotes')
                 .then((lotes) => {
-                    const lsort = lotes.data.lote.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
+                    const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
                     setLotes(lsort);
                     setTimeout(() => {
                         setLoading(false);
