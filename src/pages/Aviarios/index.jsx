@@ -19,7 +19,7 @@ const Aviarios = () => {
     const { aviarios, setAviarios } = useContext(AuthContext);
     const [loading, setLoading] = useState(undefined);
     const [aviario, setAviario] = useState(aviarios.slice(0, 5000));
-console.log(aviarios);
+
     useEffect(() => {
         setTimeout(() => {
             setAviario(aviarios.slice(0, 1000));
@@ -37,6 +37,7 @@ console.log(aviarios);
             return (
                 <ATr key={index} thead={false} colorRow={(index % 2)}>
                     <ATd>{lt.aviario}</ATd>
+                    <ATd>{lt.lote}</ATd>
                     <ATd>{lt.totl_femea}</ATd>
                     <ATd>{lt.totl_macho}</ATd>
                     <ATd>{moment(lt.data_entrada, true).locale('pt-br').format('DD/MM/YYYY')}</ATd>
@@ -65,7 +66,7 @@ console.log(aviarios);
         })
             .then(res => {
                 const lot = aviarios.filter(item => item.aviarioId !== id);
-                // console.log(lot);
+
                 setAviario(lot);
             }).catch(err => {
                 console.log(err);
@@ -130,6 +131,7 @@ console.log(aviarios);
                     <ATable>
                         <ATr thead={true}>
                             <ATh width="w-28">Aviario</ATh>
+                            <ATh>Lote</ATh>
                             <ATh>Fêmeas</ATh>
                             <ATh>Machos</ATh>
                             <ATh>Cadastro</ATh>
