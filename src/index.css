@@ -4,6 +4,6 @@
 
 @layer components {
     .formatInput {
-        @apply shadow-sm font-medium text-gray-600 border-gray-300;
+        @apply shadow-sm font-medium text-gray-600 border-gray-300 bg-slate-100;
     }
 }

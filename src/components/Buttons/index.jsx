@@ -5,6 +5,8 @@ import { IconContext } from 'react-icons';
 import { IoAdd, IoArrowBack, IoSave } from "react-icons/io5";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { ImSpinner6 } from "react-icons/im";
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
 
 export const AButtomAdd = ({ url }) => {
     const navigate = useNavigate();
@@ -32,13 +34,13 @@ export const AButtomAdd = ({ url }) => {
 
 export const AButtomBack = ({ url }) => {
     const navigate = useNavigate();
-
+    const {setAtualizaDados} = useContext(AuthContext);
     return (
         <Fragment>
 
             <div className='flex-grow'>
                 <button
-                    onClick={() => navigate(url)}
+                    onClick={() => {navigate(url); setAtualizaDados(true);}}
                     className='flex items-center justify-center py-2 px-4 border-2 border-white shadow-sm rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none'
                 >
                     <IconContext.Provider value={{ className: "text-lg" }}>

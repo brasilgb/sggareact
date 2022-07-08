@@ -16,10 +16,10 @@ import ReactLoading from 'react-loading';
 
 const Lotes = () => {
 
-    const { lotes, setLotes } = useContext(AuthContext);
+    const { lotes } = useContext(AuthContext);
     const [loading, setLoading] = useState(undefined);
     const [lote, setLote] = useState(lotes.slice(0, 5000));
-console.log(lotes);
+
     useEffect(() => {
         setTimeout(() => {
             setLote(lotes.slice(0, 1000));
@@ -43,7 +43,7 @@ console.log(lotes);
                     <ATd>{lt.capi_macho}</ATd>
                     <ATd>{lt.femea + lt.macho}</ATd>
                     <ATd>{lt.aviariosNumber}</ATd>
-                    <ATd>{moment(lt.data_entrada, true).locale('pt-br').format('DD/MM/YYYY')}</ATd>
+                    <ATd>{moment(lt.data_entrada).format('DD/MM/YYYY')}</ATd>
                     <ATd>
                         <AButtomEdit url={`/lotes/${lt.loteId}`} />
                         <AButtomDelete onclick={(e) => deleteRow(lt.loteId, e)} />
@@ -68,8 +68,7 @@ console.log(lotes);
             }
         })
             .then(res => {
-                const lot = lotes.filter(item => item.loteId !== id);
-                // console.log(lot);
+                const lot = lote.filter(item => item.loteId !== id);
                 setLote(lot);
             }).catch(err => {
                 console.log(err);

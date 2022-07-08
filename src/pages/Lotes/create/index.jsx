@@ -30,7 +30,7 @@ const Create = ({ loading }) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => {
-        setMessage('')
+
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
         api.post('lotes', {
             "cicloId": cl[0].cicloId,
@@ -40,23 +40,24 @@ const Create = ({ loading }) => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                setLotes([...lotes, 
-                    {
-                        "loteId": response.data.lote.loteid,
-                        "cicloId": cl[0].cicloId,
-                        "lote": data.lote,
-                        "aviariosNumber": 0,
-                        "data_entrada": moment(value).format('YYYY-MM-DD'),
-                        "femea": data.femea,
-                        "macho": data.macho
-                    }
-                ]);
+
+                // setLotes([...lotes,
+                // {
+                //     "loteId": response.data.lote.loteid,
+                //     "cicloId": cl[0].cicloId,
+                //     "lote": data.lote,
+                //     "aviariosNumber": 0,
+                //     "data_entrada": moment(value).format('YYYY-MM-DD'),
+                //     "femea": data.femea,
+                //     "macho": data.macho
+                // }
+                // ]);
                 setErrorMessage('');
                 reset();
                 toast.success(response.data.message, {
                     transition: Slide
-                   })
-                
+                })
+
             })
             .catch((err) => {
                 setErrorMessage(err.response.data.message);
@@ -65,7 +66,7 @@ const Create = ({ loading }) => {
 
     return (
         <Fragment>
-                        <ToastContainer position="top-right"  autoClose={5000} />
+            <ToastContainer position="top-right" autoClose={2000} />
             <ABoxAll>
                 <ABoxHeader>
                     <ABoxHeaderTitle>
@@ -102,8 +103,8 @@ const Create = ({ loading }) => {
                                     <DateTimePicker
                                         onChange={onChange}
                                         value={value}
-                                        disableClock={true}
-                                        format="dd/MM/yyyy"
+                                        // disableClock={true}
+                                        // format="dd/MM/yyyy"
                                         className="mt-1 w-full font-semibold text-gray-600"
                                         autoFocus={false}
                                         locale="pt-BR"

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { ABoxAll, ABoxBody, ABoxHeader, ABoxHeaderTitle } from '../../../components/Boxes';
 import { ABreadcumb } from '../../../components/Breadcumbs';
 import { AButtomBack } from '../../../components/Buttons';
@@ -25,7 +25,7 @@ const Update = () => {
     const { idlote } = useParams();
     const resLotes = lotes.filter((lt) => (parseInt(lt.loteId) === parseInt(idlote)));
 
-    const [value, onChange] = useState(resLotes[0].data_entrada);
+    const [value, onChange] = useState(new Date(resLotes[0].data_entrada));
 
     const cl = ciclos.filter((ci) => ci.ativo == 1);
 
@@ -50,26 +50,29 @@ const Update = () => {
             "macho": data.macho
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
-                const index = lotes.findIndex(object => {
-                    return object.loteId === parseInt(idlote);
-                });
-                if (index < 0) {
-                    console.log('Não Têm...');
-                }
-                let ltemp = lotes;
-                ltemp[index] = {
-                    "loteId": parseInt(idlote),
-                    "cicloId": cl[0].cicloId,
-                    "lote": data.lote,
-                    "aviariosNumber": response.data.aviarios,
-                    "data_entrada": moment(value).format('YYYY-MM-DD'),
-                    "femea": data.femea,
-                    "macho": data.macho
-                }
-                setLotes(ltemp);
+
+                // const index = lotes.findIndex(object => {
+                //     return object.loteId === parseInt(idlote);
+                // });
+                // if (index < 0) {
+                //     console.log('Não Têm...');
+                // }
+                // let ltemp = lotes;
+                // ltemp[index] = {
+                //     "loteId": parseInt(idlote),
+                //     "cicloId": cl[0].cicloId,
+                //     "lote": data.lote,
+                //     "aviariosNumber": response.data.aviarios,
+                //     "data_entrada": moment(value).format('YYYY-MM-DD'),
+                //     "femea": data.femea,
+                //     "macho": data.macho
+                // }
+                // setLotes(ltemp);
+
                 toast.success(response.data.message, {
                     transition: Slide
-                   })
+                })
+                
             })
             .catch(err => {
                 console.log(err);
@@ -78,7 +81,7 @@ const Update = () => {
 
     return (
         <Fragment>
-            <ToastContainer position="top-right"  autoClose={5000} />
+            <ToastContainer position="top-right" autoClose={2000} />
             <ABoxAll>
                 <ABoxHeader>
                     <ABoxHeaderTitle>
@@ -104,7 +107,7 @@ const Update = () => {
 
                 <ABoxBody>
                     <form onSubmit={handleSubmit(onSubmit)} >
-                        
+
                         <ABoxFormBody>
 
                             <div className="md:flex items-center mt-8">

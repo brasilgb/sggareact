@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     const [dataFiltroFin, setDataFiltroFin] = useState(moment(new Date()).format('YYYY-MM-DD'));
     const [searchFilial, setSearchFilial] = useState("false");
 
+    const [atualizaDados, setAtualizaDados] = useState(false);
     function dataSearch(inicial, final, filial) {
         setDataFiltroIni(inicial);
         setDataFiltroFin(final);
@@ -139,7 +140,11 @@ export const AuthProvider = ({ children }) => {
                 })
         }
         getCiclos();
-    }, []);
+        if (atualizaDados) {
+            getCiclos();
+            setAtualizaDados(!atualizaDados)
+        }
+    }, [atualizaDados]);
 
     // Data Lotes
     useEffect(() => {
@@ -149,17 +154,18 @@ export const AuthProvider = ({ children }) => {
                 .then((lotes) => {
                     const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
                     setLotes(lsort);
-                    setTimeout(() => {
-                        setLoading(false);
-                    }, 1000);
-
+                    setLoading(false);
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
         getLotes();
-    }, []);
+        if (atualizaDados) {
+            getLotes();
+            setAtualizaDados(!atualizaDados)
+        }
+    }, [atualizaDados]);
 
     // Data Aviarios
     useEffect(() => {
@@ -169,17 +175,18 @@ export const AuthProvider = ({ children }) => {
                 .then((aviarios) => {
                     const lsort = aviarios.data.aviarios.sort((a, b) => a.aviarioId < b.aviarioId ? 1 : -1);
                     setAviarios(lsort);
-                    setTimeout(() => {
-                        setLoading(false);
-                    }, 1000);
-
+                    setLoading(false);
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
         getAviarios();
-    }, []);
+        if (atualizaDados) {
+            getAviarios();
+            setAtualizaDados(!atualizaDados)
+        }
+    }, [atualizaDados]);
 
     // useEffect(() => {
     //     async function getUserAccess() {
@@ -244,6 +251,7 @@ export const AuthProvider = ({ children }) => {
             user,
             // userAccess,
             setLoading,
+            setAtualizaDados,
             loading,
             setErrorMessage,
             // setNumFilial,

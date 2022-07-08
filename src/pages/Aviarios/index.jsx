@@ -16,7 +16,7 @@ import ReactLoading from 'react-loading';
 
 const Aviarios = () => {
 
-    const { aviarios, setAviarios } = useContext(AuthContext);
+    const { aviarios, setAtualizaDados } = useContext(AuthContext);
     const [loading, setLoading] = useState(undefined);
     const [aviario, setAviario] = useState(aviarios.slice(0, 5000));
 
@@ -65,9 +65,10 @@ const Aviarios = () => {
             }
         })
             .then(res => {
-                const lot = aviarios.filter(item => item.aviarioId !== id);
+                setAtualizaDados(true);
+                const avi = aviario.filter(item => item.aviarioId !== id);
 
-                setAviario(lot);
+                setAviario(avi);
             }).catch(err => {
                 console.log(err);
             })

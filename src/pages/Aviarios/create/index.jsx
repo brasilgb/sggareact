@@ -30,7 +30,7 @@ const Create = ({ loading }) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => {
-        setMessage('')
+
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW5kZXJzb25AZW1haWwuY29tIiwiaWF0IjoxNjUyMDExMjkzfQ.A0eSi-xafALrywZCcQXHYXmSxeN8ncGVIn2pcaz0goo";
         api.post('aviarios', {
             "cicloId": cl[0].cicloId,
@@ -49,17 +49,19 @@ const Create = ({ loading }) => {
             "totl_macho": parseInt(data.box1_macho) + parseInt(data.box2_macho) + parseInt(data.box3_macho) + parseInt(data.box4_macho)
         }, { headers: { "Authorization": `Bearer ${token}` } })
             .then((response) => {
+                
                 setAviarios([...aviarios,
                 {
                     "cicloId": cl[0].cicloId,
                     "loteId": data.loteId,
                     "aviario": data.aviario,
                     "data_entrada": moment(value).format('YYYY-MM-DD'),
-                    "femea": data.femea,
-                    "macho": data.macho
+                    "totl_femea": parseInt(data.box1_femea) + parseInt(data.box2_femea) + parseInt(data.box3_femea) + parseInt(data.box4_femea),
+                    "totl_macho": parseInt(data.box1_macho) + parseInt(data.box2_macho) + parseInt(data.box3_macho) + parseInt(data.box4_macho)
                 }
-                    /**
-                     *         cicloId,
+            /**
+            *         
+            cicloId,
             loteId,
             aviario,
             data_entrada,
@@ -137,14 +139,14 @@ const Create = ({ loading }) => {
                                 </div>
                             </div>
 
-                            <AInput label="Descrição do lote" id="loteId">
+                            <AInput label="Lotes" id="loteId">
                                 <select
                                     id="loteId"
                                     name="loteId"
                                     {...register('loteId', {
                                         required: {
                                             value: "Required",
-                                            message: 'Digite a descrição do lote!'
+                                            message: 'Selecione o lote!'
                                         }
                                     })}
                                     type="text"
