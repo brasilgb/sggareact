@@ -36,11 +36,11 @@ export const ABoxHeaderTitle = ({ children }) => {
 
 }
 
-export const ABoxBody = ({ children }) => {
+export const ABoxBody = ({ children }, animacao) => {
 
     return (
         <Fragment>
-            <div className="bg-gray-50 p-4 overflow-x-auto">
+            <div className={`bg-gray-50 p-4 overflow-x-auto ${animacao}`}>
                 {children}
             </div>
         </Fragment>

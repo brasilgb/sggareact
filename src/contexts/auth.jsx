@@ -15,8 +15,7 @@ export const AuthProvider = ({ children }) => {
 
     const [redLogin, setRedLogin] = useState(false);
 
-    const [lotes, setLotes] = useState([]);
-    const [aviarios, setAviarios] = useState([]);
+   const [aviarios, setAviarios] = useState([]);
     const [ciclos, setCiclos] = useState([]);
 
     const [loadList, setLoadList] = useState(true);
@@ -146,27 +145,6 @@ export const AuthProvider = ({ children }) => {
         }
     }, [atualizaDados]);
 
-    // Data Lotes
-    useEffect(() => {
-        setLoading(true);
-        async function getLotes() {
-            await api.get('lotes')
-                .then((lotes) => {
-                    const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
-                    setLotes(lsort);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-        getLotes();
-        if (atualizaDados) {
-            getLotes();
-            setAtualizaDados(!atualizaDados)
-        }
-    }, [atualizaDados]);
-
     // Data Aviarios
     useEffect(() => {
         setLoading(true);
@@ -249,31 +227,18 @@ export const AuthProvider = ({ children }) => {
             authenticated:
                 !!user,
             user,
-            // userAccess,
             setLoading,
-            setAtualizaDados,
             loading,
+            setAtualizaDados,
             setErrorMessage,
-            // setNumFilial,
-            setSearchFilial,
             errorMessage,
             registerUser,
             login,
             logout,
-            redLogin,
-            setRedLogin,
             dataSearch,
-            lotes,
-            setLotes,
             aviarios,
             setAviarios,
-            ciclos,
-            // numFilial,
-            // valuesKpis,
-            // totalValuesKpis,
-
-            loadList,
-            loadButton
+            ciclos
         }}>
             {children}
         </AuthContext.Provider>

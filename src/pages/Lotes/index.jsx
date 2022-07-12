@@ -12,19 +12,36 @@ import ReactPaginate from 'react-paginate';
 import { AuthContext } from '../../contexts/auth';
 import moment from 'moment';
 import api from '../../services/api';
-import ReactLoading from 'react-loading';
+import LoadingPage from '../../components/LoadingPage';
+import 'animate.css';
 
 const Lotes = () => {
 
-    const { lotes } = useContext(AuthContext);
-    const [loading, setLoading] = useState(undefined);
+    const { setLoading, loading } = useContext(AuthContext);
+    const [lotes, setLotes] = useState([]);
+
+
+    // Data Lotes
+    useEffect(() => {
+        setLoading(true);
+        async function getLotes() {
+            await api.get('lotes')
+                .then((lotes) => {
+                    const lsort = lotes.data.lotes.sort((a, b) => a.loteId < b.loteId ? 1 : -1);
+                    setLotes(lsort);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        getLotes();
+    }, [setLoading]);
+
     const [lote, setLote] = useState(lotes.slice(0, 5000));
 
     useEffect(() => {
-        setTimeout(() => {
-            setLote(lotes.slice(0, 1000));
-            setLoading(true);
-        }, 1200)
+        setLote(lotes.slice(0, 1000));
     }, [lotes])
 
     const [pageNumber, setPageNumber] = useState(0);
@@ -102,7 +119,6 @@ const Lotes = () => {
         });
     })
 
-
     return (
         <Fragment>
 
@@ -128,34 +144,29 @@ const Lotes = () => {
                     <AInputSearch place="Buscar por lote" />
                 </ABoxHeader>
 
-                <ABoxBody>
+                <ABoxBody animacao="animate__animated animate__fadeIn">
 
-                    <ATable>
-                        <ATr thead={true}>
-                            <ATh width="w-28">Lote</ATh>
-                            <ATh>Fêmeas</ATh>
-                            <ATh>Capitalizadas/Data</ATh>
-                            <ATh>Machos</ATh>
-                            <ATh>Capitalizadas/Data</ATh>
-                            <ATh>Total Aves</ATh>
-                            <ATh>Aviários</ATh>
-                            <ATh>Cadastro</ATh>
-                            <ATh width="w-56"></ATh>
-                        </ATr>
-                        {!loading ?
-                            <ATr>
-                                <ATd>
-                                    <div className="absolute top-0 left-0 right-0 flex items-center justify-center w-full h-screen bg-indigo-600 bg-opacity-20">
-                                        <ReactLoading className="mx-auto" type="bars" color="#0D2237" height={50} width={50} />
-                                    </div>
-                                </ATd>
+                    {loading ?
+                        <LoadingPage />
+                        :
+                        <ATable>
+                            <ATr thead={true}>
+                                <ATh width="w-28">Lote</ATh>
+                                <ATh>Fêmeas</ATh>
+                                <ATh>Capitalizadas/Data</ATh>
+                                <ATh>Machos</ATh>
+                                <ATh>Capitalizadas/Data</ATh>
+                                <ATh>Total Aves</ATh>
+                                <ATh>Aviários</ATh>
+                                <ATh>Cadastro</ATh>
+                                <ATh width="w-56"></ATh>
                             </ATr>
-                            :
-                            displayLotes
-                        }
-                    </ATable>
+                            {displayLotes}
+                        </ATable>
+                    }
 
                 </ABoxBody>
+
                 {lote.length > lotePerPage &&
                     <ABoxFooter>
                         <ReactPaginate
